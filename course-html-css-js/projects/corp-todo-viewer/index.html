@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script>
+		const theme = document.querySelector("html").setAttribute("data-theme", localStorage.getItem("theme") || "light");
+	</script>
+
+	<!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+	<!-- <script src="../../../scripts/smooth-scroll.js" defer></script> -->
+
+	<script type="module" src="../../../scripts/theme-toggle.js" defer></script>
+	<script type="module" src="../../../scripts/log-to-page.js" defer></script>
+	<script type="module" src="../../../scripts/shiki-loader.js" defer></script>
+
+	<script src="../../../scripts/nav.js" defer></script>
+	<script src="../../../scripts/timer.js" defer></script>
+
+	<script src="./scripts/corp-todo-viewer.js" defer></script>
+
+	<title>ICH WD</title>
+	<link rel="icon" href="../../../favicon.ico">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<link href="../../../styles/styles.css" rel="stylesheet">
+	<link href="../app-todo/styles/todo.css" rel="stylesheet">
+	<link href="./styles/corp-todo-viewer.css" rel="stylesheet">
+</head>
+
+<body class="text-base">
+	<div class="base-layout">
+
+		<!-- <div class="sidebar"></div> -->
+
+		<header>
+			<div class="container flex items-center justify-between px-8">
+				<h4 class="uppercase">
+					<a class="flex" href="../../../index.html">
+						<span class="text-secondary font-black">ICH</span>
+						<span class="font-black text-muted">.</span>
+						<span class="text-accent">CorpTodoViewer</span>
+					</a>
+				</h4>
+				<div class="flex items-center justify-end gap-1">
+					<nav class="flex items-center gap-1">
+						<!-- В этом ul рендерится навигация сайта через nav.js-->
+						<ul></ul>
+					</nav>
+					<button id="theme-toggle" class="btn btn-ghost"></button>
+				</div>
+			</div>
+		</header>
+
+		<main>
+			<section>
+				<div class="container px-8">
+
+					<div class="content m-auto">
+						<!-- <h2 class="title">Корпоративный просмотрщик задач</h2> -->
+						<div id="app-todo">
+							<div class="flex flex-col justify-center gap-4 mb-4">
+
+								<!-- Фильтры -->
+								<div class="filters flex flex-col gap-4">
+
+
+									<!-- Фильтр по статусу -->
+									<div id="todos-filter">
+										<!-- Поиск -->
+										<div class="relative flex items-center">
+											<input id="todos-search" class="search" type="text" name="search" placeholder="Поиск задач">
+											<span class="absolute left-3 text-muted material-symbols-outlined">
+												search
+											</span>
+											<button type="button" class="clean-input-btn absolute right-3 btn btn-invisible btn-xs">
+												<span class="text-secondary material-symbols-outlined">
+													close
+												</span>
+											</button>
+										</div>
+
+										<!-- Фильтр по выполнению -->
+										<div class="flex flex-1">
+											<label class="filter" for="all">
+												<input type="radio" id="all" name="filter" checked>
+												<span>All</span>
+											</label>
+
+											<label class="filter" for="active">
+												<input type="radio" id="active" name="filter">
+												<span>Active</span>
+											</label>
+
+											<label class="filter" for="done">
+												<input type="radio" id="done" name="filter">
+												<span>Done</span>
+											</label>
+										</div>
+
+										<!-- Фильтр по пользователю -->
+										<div class="relative flex items-center">
+											<select id="user-select"></select>
+											<span class="absolute right-2 text-elevated pointer-events-none material-symbols-outlined">
+												arrow_drop_down
+											</span>
+										</div>
+									</div>
+
+									<!-- Статистика -->
+									<div class="stats" id="stats"></div>
+
+									<!-- Список задач -->
+									<div id="todos-list"></div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+			</section>
+		</main>
+
+	</div>
+
+	<footer>
+		<div id="footer-content" class="container px-8">
+			<div class="flex flex-col justify-between text-left gap-2">
+				<span class="font-semibold text-accent">It Career Hub Web Developer</span>
+				<span>Designed & built by&nbsp;<a class="link nowrap" href="https://artemkutsan.pp.ua">Artem
+						Kutsan</a></span>
+				<span>&copy; Copyright 2025</span>
+			</div>
+			<div class="flex flex-col justify-between text-right">
+				<span id="current-time" class="text-5xl font-bold text-accent"></span>
+				<span id="current-zone"></span>
+			</div>
+		</div>
+	</footer>
+
+</body>
+
+</html>

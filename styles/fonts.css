@@ -1,0 +1,16 @@
+/* styles/fonts.css */
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  /* font-display: swap; */
+}
+
+body {
+  font-family: "Inter", Arial, sans-serif;
+  font-feature-settings: "tnum" 1, "zero" 1, "cv01" 1, "cv09" 1, "cv02" 1,
+    "cv03" 1, "cv04" 1, "ss08" 1, "dlig" 1, "cv06" 1, "cv10" 1, "cv11" 1,
+    "cv13" 1;
+}

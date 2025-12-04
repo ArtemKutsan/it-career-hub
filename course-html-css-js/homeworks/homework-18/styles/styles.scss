@@ -1,0 +1,46 @@
+/* course-html-css-js/homeworks/homework-14-1/styles/styles.scss */
+
+@use 'variables/colors';
+@use 'sections/header';
+
+// Задание 1.
+/* Создать адаптивный контейнер для содержимого на веб-странице. Создайте переменную, 
+представляющую ширину контейнера, необходимо установить разную ширину контейнера в зависимости 
+от размера экрана устройства. Изначальная ширина контейнера 960px, если ширина экрана меньше 768px, 
+то ширина контейнера должна быть равна 100%. */
+$content-width: 960px;
+
+.content {
+  max-width: $content-width;
+  border: 1px solid colors.$color-accent;
+  padding: 2rem;
+}
+
+@media (max-width: 767px) {
+  $content-width: 100%;
+}
+
+// Задание 2.
+/* Создать миксин для установки стилей кнопки. Требования: Создайте миксин с именем button-styles, 
+который принимает два аргумента: background-color и color. Используйте аргументы миксина для 
+установки соответствующих стилей кнопки. Примените миксин к кнопке с классом .button. */
+@mixin button-styles($bg-color, $color) {
+  background-color: $bg-color;
+  color: $color;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-size: var(--font-base);
+  cursor: pointer;
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-weight: 600;
+}
+
+.button {
+  @include button-styles(var(--color-bg-lite), var(--color-accent));
+}
+
+.button-secondary {
+  @include button-styles(var(--color-secondary), var(--color-light));
+}

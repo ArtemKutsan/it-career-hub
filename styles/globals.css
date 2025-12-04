@@ -1,0 +1,363 @@
+/* styles/globals.css */
+
+/* Размеры в px указаны для базового шрифта в 16px */
+:root {
+  --font-xs: 0.75rem; /* 12px */
+  --font-sm: 0.875rem; /* 14px */
+  --font-base: 1rem; /* 16px */
+  --font-lg: 1.125rem; /* 18px */
+  --font-xl: 1.25rem; /* 20px */
+  --font-2xl: 1.5rem; /* 24px */
+  --font-3xl: 1.875rem; /* 30px */
+  --font-4xl: 2.25rem; /* 36px */
+  --font-5xl: 3rem; /* 48px */
+  --font-6xl: 3.75rem; /* 60px */
+  --font-7xl: 4.5rem; /* 72px */
+  --font-8xl: 6rem; /* 96px */
+  --font-9xl: 8rem; /* 128px */
+}
+
+:root {
+  --color-light: #f0f0f0;
+  --color-dark: #252525;
+  --color-bright: #fafafa;
+  --color-deep: #1a1a1a;
+}
+
+:root,
+:root[data-theme='light'] {
+  --color-bg: #f0f0f0;
+
+  --color-accent: #252525;
+  --color-primary: #204569;
+  --color-secondary: #e94d35;
+
+  --color-bg-lite: #2525250a;
+  --color-bg-accent: #2525250f;
+
+  --color-text: #505050;
+  --color-text-lite: #757575;
+  --color-text-muted: #a5a5a5;
+
+  --color-link: #024f9c;
+
+  --color-elevated: #fafafa;
+
+  --color-highlight: #f5f5f5;
+
+  --color-bg-inverse: var(--color-accent);
+  --color-text-inverse: var(--color-light);
+
+  /* --shadow: rgba(0, 0, 0, 0.125); */
+}
+
+:root[data-theme='dark'],
+.dark {
+  --color-bg: #252525; /* 0b1723 */
+
+  --color-accent: #e0e0e0;
+  --color-primary: #e0e0e0;
+  --color-secondary: #e94d35;
+
+  --color-bg-lite: #e0e0e00a;
+  --color-bg-accent: #e0e0e00f;
+
+  --color-text: #afafaf;
+  --color-text-lite: #8a8a8a;
+  --color-text-muted: #757575;
+
+  --color-link: #88b5e2;
+
+  --color-elevated: #1a1a1a;
+
+  --color-highlight: #303030;
+
+  --color-bg-inverse: var(--color-accent);
+  --color-text-inverse: var(--color-dark);
+
+  /* --shadow: rgba(0, 0, 0, 0.175); */
+}
+
+/* При использовании tailwind нужно отключить */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  overflow-wrap: break-word; /* универсальный перенос длинных слов */
+  word-break: break-word; /* для старых браузеров */
+  /* hyphens: auto; */ /* перенос слов по слогам, если язык известен и в слове нет подходящего пробела */
+  font-weight: 400;
+}
+
+/* ===== Базовая сетка страницы ===== */
+.base-layout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-auto-rows: auto 1fr auto;
+  grid-template-areas:
+    'sidebar header'
+    'sidebar main'
+    'footer footer';
+  min-height: 100vh;
+}
+
+/* ===== Боковая панель ===== */
+.sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-right: 1px solid var(--color-bg-accent);
+  transition: transform 0.5s ease;
+}
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+/* ===== Контейнер ===== */
+.container {
+  width: 100%;
+  max-width: 768px;
+  min-width: 320px;
+  margin: 0 auto;
+}
+
+/* ===== Шапка ===== */
+header {
+  grid-area: header;
+  /* padding: 1rem 0; */
+  border-bottom: 0px solid var(--color-bg-accent);
+}
+
+/* ===== Меню ====== */
+.dropdown {
+  position: relative;
+  /* background: var(--color-bg); */
+}
+
+.dropdown > button {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  position: absolute;
+  /* margin-top: 0.5rem; */
+  top: 100%;
+  right: 0;
+
+  /* min-width: 150px; */
+
+  display: none;
+  flex-direction: column;
+
+  border-radius: 1rem;
+
+  background: var(--color-highlight);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.125);
+}
+
+.dropdown-content li {
+  list-style: none;
+}
+
+.dropdown-content li a {
+  display: block;
+  padding: 0.5rem 0;
+  white-space: nowrap;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
+  display: flex;
+}
+/* ===== Меню END ====== */
+
+/* ===== Основной контент ===== */
+main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
+  /* overflow: auto; */
+}
+
+section {
+  padding: 2rem 0;
+}
+section#app {
+  height: 100%;
+}
+section#app > .container {
+  height: 100%;
+}
+
+/* ===== Подвал ===== */
+footer {
+  grid-area: footer;
+  padding: 2rem 0;
+  text-align: center;
+  border-top: 1px solid var(--color-bg-accent);
+}
+
+/* ===== Общие размеры ===== */
+:is(header, main, section, footer) {
+  width: 100%;
+}
+
+/* Заголовки */
+:is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+h1 {
+  font-size: var(--font-4xl);
+  line-height: 2.5rem;
+}
+h2 {
+  font-size: var(--font-3xl);
+  line-height: 2.25rem;
+}
+h3 {
+  font-size: var(--font-2xl);
+  line-height: 2rem;
+}
+h4 {
+  font-size: var(--font-xl);
+  line-height: 1.75rem;
+}
+h5 {
+  font-size: var(--font-lg);
+  line-height: 1.5rem;
+}
+h6 {
+  font-size: var(--font-base);
+  line-height: 1.25rem;
+}
+
+pre {
+  white-space: pre-wrap;
+  /* word-break: break-word; */
+  background-color: var(--color-bg-accent) !important;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
+  /* tab-size: 2; */
+  overflow-x: scroll;
+  /* font-weight: 400; */
+}
+
+pre span {
+  display: inline;
+}
+
+code {
+  white-space: pre-wrap;
+  overflow-x: scroll;
+  word-break: break-word;
+}
+
+.title {
+  color: var(--color-accent);
+  margin: 1rem 0;
+}
+
+/* :is(p, pre) {
+  margin: 1rem 0;
+} */
+
+:is(p) {
+  margin: 1rem 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6, .title, p, pre):first-child {
+  margin-top: 0;
+}
+
+:is(h1, h2, h3, h4, h5, h6, .title, p, pre):last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Подключаемые иконки Bootstrap ===== */
+.bi {
+  line-height: 0 !important;
+}
+
+/* ===== Helper контейнер для svg иконок ===== */
+.svg-icon {
+  width: 1.25em;
+  height: 1.25em;
+}
+
+/* ===== Text colors ===== */
+.text-light {
+  color: var(--color-light);
+}
+.text-lite {
+  color: var(--color-text-lite);
+}
+.text-highlight {
+  color: var(--color-highlight);
+}
+.text-dark {
+  color: var(--color-dark);
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+.text-elevated {
+  color: var(--color-elevated);
+}
+
+/* ===== Background colors ===== */
+.bg-light {
+  background-color: var(--color-light);
+}
+.bg-lite {
+  background-color: var(--color-bg-accent);
+}
+.bg-dark {
+  background-color: var(--color-dark);
+}
+.bg-inverse {
+  background-color: var(--color-bg-inverse);
+}
+
+@media (max-width: 768px) {
+  .base-layout {
+    grid-template-columns: 1fr;
+    /* grid-template-rows: auto 1fr auto; */
+    grid-template-areas:
+      'header'
+      'main'
+      'footer';
+  }
+}

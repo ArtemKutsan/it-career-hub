@@ -1,0 +1,42 @@
+/* styles/prose.css */
+
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  margin-bottom: 1rem;
+}
+.prose h1 {
+  font-size: var(--font-4xl);
+  margin-top: 2.5rem;
+}
+.prose h2 {
+  font-size: var(--font-3xl);
+  margin-top: 2.25rem;
+}
+.prose h3 {
+  font-size: var(--font-2xl);
+  margin-top: 2rem;
+}
+.prose h4 {
+  font-size: var(--font-xl);
+  margin-top: 1.75rem;
+}
+.prose h5 {
+  font-size: var(--font-lg);
+  margin-top: 1.5rem;
+}
+.prose h6 {
+  font-size: var(--font-base);
+  margin-top: 1.25rem;
+}
+
+.prose p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+}
+
+.prose :is(h1, h2, h3, h4, h5, h6, p):first-child {
+  margin-top: 0;
+}
+.prose :is(h1, h2, h3, h4, h5, h6, p):last-child {
+  margin-bottom: 0;
+}

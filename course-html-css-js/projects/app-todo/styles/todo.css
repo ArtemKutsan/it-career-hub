@@ -1,0 +1,347 @@
+/* course-html-css-js/lessons/55-practice-10/styles/styles.css */
+
+input[type='text'],
+input[type='date'],
+input[type='time'],
+input[type='datetime-local'] {
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  font-size: var(--font-base);
+  min-height: 2.5rem;
+  border: 0px solid var(--color-bg-accent);
+  border-radius: 0.875rem;
+  outline: none;
+  color: var(--color-text);
+  background: var(--color-elevated);
+  width: 100%;
+  margin-bottom: 0;
+}
+input[type='date']::placeholder,
+input[type='datetime-local']::placeholder {
+  color: var(--color-text-muted);
+}
+
+input[type='date'],
+input[type='time'],
+input[type='datetime-local'] {
+  padding: 0.5rem 1rem;
+}
+
+input[type='time'] {
+  width: auto;
+}
+
+.app-container {
+  max-width: 512px;
+  /* min-width: 320px; */
+  height: 100%;
+  margin: 0 auto;
+}
+
+#app-todo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  gap: 1rem;
+  max-width: 512px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+#app-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  background: var(--color-bg);
+  z-index: 10;
+}
+
+#app-todo form {
+  width: 100%;
+}
+
+#app-todo input.search {
+  padding: 0.5rem 2.5rem;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.icon {
+  display: flex;
+}
+
+/* ===== Фильтр задач ===== */
+#app-form .todos-filter {
+  width: 100%;
+  display: inline-flex;
+  /* align-items: center; */
+  border: 2px solid var(--color-accent);
+  border-radius: 9999px;
+  overflow: hidden;
+  font-size: var(--font-sm);
+  /* box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.225); */
+  min-height: 2.5rem;
+}
+
+/* Скрываем дефолтный radio */
+/* Было #todos-filter .filter input[type="radio"] */
+#app-todo .filter input[type='radio'] {
+  display: none;
+}
+
+/* Кнопка-фильтр */
+.todos-filter .filter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.325rem 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  border-right: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  gap: 0.25rem;
+  font-weight: 500;
+  /* height: 100%; */
+  /* min-height: 2.5rem; */
+}
+
+.todos-filter .filter:last-of-type {
+  border-right: none;
+  /* flex: none; */
+}
+
+/* Визуальное вид выбранного фильтра */
+#app-todo .filter:has(input:checked) {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+/* ===== Фильтр задач END ===== */
+
+/* ===== Список задач ===== */
+#todos-list {
+  width: 100%;
+}
+
+/* Карточка задачи */
+.todo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0.875rem 0.75rem 1rem;
+  border-radius: 1.25rem;
+  background: var(--color-bg-accent);
+  user-select: none;
+}
+
+.todo label {
+  display: flex;
+}
+
+/* Скрываем дефолтный checkbox */
+.todo input[type='checkbox'] {
+  display: none;
+}
+
+/* Кастомный checkbox */
+.checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--color-text);
+  border-radius: 0.375rem;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: var(--color-bg);
+  margin: 0 0.5rem;
+  cursor: pointer;
+}
+.checkbox:hover {
+  background: var(--color-lite);
+}
+
+.todo:has(input:checked) {
+  background: var(--color-bg-lite);
+}
+
+.todo:has(input:checked) .checkbox {
+  background: var(--color-bg-accent);
+  border-color: transparent;
+}
+
+/* SVG-галочка через mask */
+.todo:has(input:checked) .checkbox::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  mask: url('../../../assets/icons/checkbox.svg') center/75% no-repeat;
+  -webkit-mask: url('../../../assets/icons/checkbox.svg') center/75% no-repeat;
+}
+
+.todo:has(input:checked) .todo-content {
+  opacity: 0.5;
+}
+
+.todo:has(input:checked) .todo-title {
+  text-decoration: line-through;
+}
+
+.todo:has(input:checked) .edit-btn {
+  display: none;
+}
+
+.todo:has(input:checked) .delete-btn {
+  display: block;
+}
+
+.todo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.planned {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.planned .badge {
+  border-radius: 0.5rem;
+  font-size: var(--font-sm);
+  width: fit-content;
+  padding: 0 0.5rem;
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+}
+
+/* .planned .badge-current {
+  background-color: #60708f;
+}
+
+.planned .badge-soon {
+  background-color: #8090ac;
+}
+
+.planned .badge-today {
+  background-color: #a9bfd8;
+}
+
+.planned .badge-tomorrow {
+  background-color: #bfdcd1; 
+}
+
+.planned .badge-later {
+  background-color: #e4e4e4;
+}
+
+.planned .badge-expired {
+  background-color: #c88e7a;
+} */
+
+.todo .edit-btn {
+  margin-left: auto;
+}
+
+.todo .delete-btn {
+  display: none;
+  margin-left: auto;
+}
+
+.todo .restore-btn {
+  margin-left: auto;
+}
+
+/* ===== Список задач END ===== */
+
+/* !!! Доработать !!! */
+#trash {
+  /* min-width: 3rem;
+  min-height: 3rem; */
+  border-radius: 9999px;
+  border: 2px solid var(--color-accent);
+  background: var(--color-bg);
+}
+
+#todo-dialog {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  /* opacity: 0; */
+  transition: all 0.5s ease-in-out;
+  background: #252525a5;
+  /* visibility: hidden; */ /* Указано в class в html */
+}
+
+#todo-dialog.invisible {
+  /* opacity: 1; */
+  visibility: hidden;
+  background: transparent;
+}
+#todo-dialog.invisible form {
+  transform: translateY(100vh);
+}
+
+#todo-dialog form {
+  background: var(--color-bg);
+  transition: transform 0.5s ease-in-out;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  padding: 2rem;
+  box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.45);
+  width: 100%;
+  max-width: 512px;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  #todo-dialog {
+    justify-content: end;
+  }
+
+  #todo-dialog.invisible form {
+    transform: translateY(100%);
+  }
+
+  #todo-dialog form {
+    border-radius: 1.5rem 1.5rem 0 0;
+    transform: translateY(0);
+    max-width: none;
+    box-shadow: 0 -0.75rem 1.5rem rgba(0, 0, 0, 0.225);
+  }
+
+  .planned {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.25rem;
+  }
+}
+
+@media (max-width: 320px) {
+  #todo-dialog form {
+    padding: 1rem;
+  }
+
+  #add-todo-btn {
+    bottom: 1rem;
+  }
+}
