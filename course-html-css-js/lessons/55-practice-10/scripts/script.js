@@ -44,6 +44,10 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
       this.age = age;
     }
 
+    get isAdmin() {
+      return this instanceof Admin; // true только для объектов класса Admin
+    }
+
     displayInfo() {
       console.log(`Имя: ${this.name}, Возраст: ${this.age}`);
     }
@@ -60,9 +64,14 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
     }
   }
 
-  const admin = new Admin('Artem', 44, 'Суперадминистратор');
-  admin.displayInfo();
-  admin.displayRole();
+  const max = new User('Max', 45);
+  max.displayInfo();
+  console.log('Принадлежность к группе администраторов:', max.isAdmin);
+
+  const artem = new Admin('Artem', 44, 'Суперадминистратор');
+  artem.displayInfo();
+  console.log('Принадлежность к группе администраторов:', artem.isAdmin);
+  artem.displayRole();
 }
 
 // Задача 3.
