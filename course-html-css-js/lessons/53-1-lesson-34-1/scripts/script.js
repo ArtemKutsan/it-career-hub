@@ -1,4 +1,4 @@
-/* course-html-css-js/lessons/53-1-lesson-34-1/styles/styles.css */
+/* course-html-css-js/lessons/53-1-lesson-34-1/scripts/script.js */
 
 import { fetchAsText } from '../../../../scripts/fetch-as-text.js';
 import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
