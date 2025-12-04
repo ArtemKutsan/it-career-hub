@@ -240,6 +240,6 @@ const logoutBtns = document.querySelectorAll('.logout');
 logoutBtns.forEach((toggle) => {
   toggle.addEventListener('click', () => {
     localStorage.removeItem('authToken');
-    window.location.pathname = 'index.html';
+    window.location = './';
   });
 });
