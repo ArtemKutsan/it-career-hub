@@ -12,24 +12,23 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 дополнительное свойство breed (порода собаки). При создании экземпляра класса Dog, вызовите 
 конструктор родительского класса Animal, передав в него имя и тип собаки. Используйте ключевое 
 слово super для доступа к методам и свойствам родительского класса. */
-{
-  class Animal {
-    constructor(name, type) {
-      this.name = name;
-      this.type = type;
-    }
-  }
 
-  class Dog extends Animal {
-    constructor(name, type, breed) {
-      super(name, type);
-      this.breed = breed;
-    }
+class Animal {
+  constructor(name, type) {
+    this.name = name;
+    this.type = type;
   }
-
-  const dog = new Dog('Рекс', 'собака', 'Лабрадор');
-  console.log(dog.name, dog.type, dog.breed);
 }
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name, 'собака');
+    this.breed = breed;
+  }
+}
+
+const dog = new Dog('Рекс', 'Лабрадор');
+console.log(dog.name, dog.breed);
 
 // Задача 2.
 /* Создайте базовый класс User, у которого есть свойства name и age. Добавьте метод displayInfo(), 
@@ -37,42 +36,41 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 названием Admin, который будет представлять пользователя с административными правами. Добавьте в 
 класс Admin дополнительное свойство role и метод displayRole(), который выводит в консоль роль 
 администратора. */
-{
-  class User {
-    constructor(name, age) {
-      this.name = name;
-      this.age = age;
-    }
 
-    get isAdmin() {
-      return this instanceof Admin; // true только для объектов класса Admin
-    }
-
-    displayInfo() {
-      console.log(`Имя: ${this.name}, Возраст: ${this.age}`);
-    }
+class User {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
   }
 
-  class Admin extends User {
-    constructor(name, age, role) {
-      super(name, age);
-      this.role = role;
-    }
-
-    displayRole() {
-      console.log(`Роль администратора: ${this.role}`);
-    }
+  get isAdmin() {
+    return this instanceof Admin; // true только для объектов класса Admin
   }
 
-  const max = new User('Max', 45);
-  max.displayInfo();
-  console.log('Принадлежность к группе администраторов:', max.isAdmin);
-
-  const artem = new Admin('Artem', 44, 'Суперадминистратор');
-  artem.displayInfo();
-  console.log('Принадлежность к группе администраторов:', artem.isAdmin);
-  artem.displayRole();
+  displayInfo() {
+    console.log(`Имя: ${this.name}, Возраст: ${this.age}`);
+  }
 }
+
+class Admin extends User {
+  constructor(name, age, role) {
+    super(name, age);
+    this.role = role;
+  }
+
+  displayRole() {
+    console.log(`Роль: ${this.role}`);
+  }
+}
+
+const max = new User('Max', 45);
+max.displayInfo();
+console.log('Принадлежность к группе администраторов:', max.isAdmin);
+
+const artem = new Admin('Artem', 44, 'Системный администратор');
+artem.displayInfo();
+console.log('Принадлежность к группе администраторов:', artem.isAdmin);
+artem.displayRole();
 
 // Задача 3.
 /* Создайте базовый класс Account, представляющий банковский счет, у которого есть свойства id, 
@@ -81,50 +79,65 @@ balance и методы deposit() и withdraw(), для пополнения и 
 сберегательный счет. Добавьте в класс SavingsAccount дополнительное свойство interestRate, 
 представляющее годовую процентную ставку, а также метод addInterest(), который добавляет на счет 
 проценты по прошествии определенного времени. */
-{
-  class Account {
-    constructor(id, balance) {
-      this.id = id;
-      this.balance = balance;
-    }
 
-    deposit(amount) {
-      if (amount > 0) {
-        this.balance += amount;
-        console.log(`Пополнено на ${amount}. Новый баланс: ${this.balance}`);
-      }
-    }
+class Account {
+  constructor(id, balance) {
+    this.id = id;
+    this.balance = balance;
+  }
 
-    withdraw(amount) {
-      if (amount > 0 && amount <= this.balance) {
-        this.balance -= amount;
-        console.log(`Снято ${amount}. Новый баланс: ${this.balance}`);
-      } else {
-        console.log('Недостаточно средств');
-      }
+  deposit(amount) {
+    if (amount > 0) {
+      this.balance += amount;
+      console.log(`Счет: ${this.id} пополнен на ${amount}. Новый баланс: ${this.balance}`);
     }
   }
 
-  class SavingsAccount extends Account {
-    constructor(id, balance, interestRate) {
-      super(id, balance);
-      this.interestRate = interestRate;
+  thdraw(amount) {
+    if (amount <= 0) {
+      console.log('Сумма должна быть больше нуля');
+      return;
     }
 
-    addInterest() {
-      const interest = this.balance * this.interestRate;
-      this.balance += interest;
-      console.log(
-        `Добавлены проценты: ${interest.toFixed(2)}. Новый баланс: ${this.balance.toFixed(2)}`
-      );
+    if (amount > this.balance) {
+      console.log('Недостаточно средств');
+      return;
     }
+
+    this.balance -= amount;
+
+    console.log(`Со счета ${this.id} снято ${amount}. Новый баланс: ${this.balance}`);
   }
-
-  const savings = new SavingsAccount('ACC001', 1000, 0.05);
-  savings.deposit(500);
-  savings.addInterest();
-  savings.withdraw(200);
 }
+
+class SavingsAccount extends Account {
+  constructor(id, balance, interestRate) {
+    super(id, balance);
+    this.interestRate = interestRate;
+  }
+
+  addInterest() {
+    const interest = this.balance * this.interestRate;
+    this.balance += interest;
+
+    console.log(
+      `На счет ${this.id} добавлены проценты: ${interest.toFixed(
+        2
+      )}. Новый баланс: ${this.balance.toFixed(2)}`
+    );
+  }
+}
+
+const client = {
+  name: 'Artem',
+  account: new Account('ACC001', 0),
+  savings: new SavingsAccount('SAV001', 0, 0.05),
+};
+
+client.account.deposit(1000);
+client.savings.deposit(500);
+client.savings.addInterest();
+client.account.withdraw(200);
 
 // Задача 4.
 /* Создайте базовый класс Library, у которого есть свойство books, представляющее массив объектов 
@@ -132,46 +145,58 @@ balance и методы deposit() и withdraw(), для пополнения и 
 и removeBook() для удаления книги по названию. Создайте наследника класса Library под названием 
 DigitalLibrary, который представляет собой цифровую библиотеку с дополнительными методами 
 searchByAuthor() и searchByTitle() для поиска книг по автору и названию соответственно. */
-{
-  class Library {
-    constructor() {
-      this.books = [];
-    }
 
-    addBook(title, author) {
-      this.books.push({ title, author });
-      console.log(`Книга "${title}" добавлена`);
-    }
+class Library {
+  constructor() {
+    this.books = [];
+  }
 
-    removeBook(title) {
-      const index = this.books.findIndex((book) => book.title === title);
-      if (index !== -1) {
-        this.books.splice(index, 1);
-        console.log(`Книга "${title}" удалена`);
-      } else {
-        console.log(`Книга "${title}" не найдена`);
-      }
+  addBook(title, author) {
+    this.books.push({ title, author });
+    console.log(`Книга "${title}" добавлена`);
+  }
+
+  removeBook(title) {
+    const initialLength = this.books.length;
+    this.books = this.books.filter((book) => book.title !== title);
+    if (this.books.length < initialLength) {
+      console.log(`Книги с названием "${title}" удалены`);
+    } else {
+      console.log(`Книги с названием "${title}" не найдены`);
     }
   }
 
-  class DigitalLibrary extends Library {
-    searchByAuthor(author) {
-      return this.books.filter((book) => book.author === author);
-    }
-
-    searchByTitle(title) {
-      return this.books.filter((book) => book.title === title);
-    }
-  }
-
-  const digitalLibrary = new DigitalLibrary();
-  digitalLibrary.addBook('Атлант расправил плечи', 'Айн Рэнд');
-  digitalLibrary.addBook('1984', 'Джордж Орвелл');
-  digitalLibrary.addBook('Эффект бабочки', 'Рэй Брэдбери');
-  console.log('Поиск по автору "Айн Рэнд":', digitalLibrary.searchByAuthor('Айн Рэнд'));
-  console.log('Поиск по названию "1984":', digitalLibrary.searchByTitle('1984'));
-  digitalLibrary.removeBook('Эффект бабочки');
+  // removeBook(title) {
+  //   // Пример работы метода findIndex
+  //   const index = this.books.findIndex((book) => book.title === title);
+  //   if (index !== -1) {
+  //     this.books.splice(index, 1);
+  //     console.log(`Книга "${title}" удалена`);
+  //   } else {
+  //     console.log(`Книга "${title}" не найдена`);
+  //   }
+  // }
 }
+
+class DigitalLibrary extends Library {
+  searchByAuthor(author) {
+    return this.books.filter((book) => book.author === author);
+  }
+
+  searchByTitle(title) {
+    return this.books.filter((book) => book.title === title);
+  }
+}
+
+const digitalLibrary = new DigitalLibrary();
+digitalLibrary.addBook('Атлант расправил плечи', 'Айн Рэнд');
+digitalLibrary.addBook('Источник', 'Айн Рэнд');
+digitalLibrary.addBook('1984', 'Джордж Орвелл');
+digitalLibrary.addBook('Эффект бабочки', 'Рэй Брэдбери');
+console.log('Поиск по автору "Айн Рэнд":', digitalLibrary.searchByAuthor('Айн Рэнд'));
+console.log('Поиск по названию "1984":', digitalLibrary.searchByTitle('1984'));
+digitalLibrary.removeBook('Эффект бабочки');
+
 /* ===== END ===== */
 
 const resourceUrl = `./scripts/script.js`;
