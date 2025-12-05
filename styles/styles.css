@@ -118,7 +118,10 @@ input[type='email'],
 input[type='tel'],
 input[type='password'] {
   padding: 0.5rem 2.5rem 0.5rem 1rem;
-  font-size: var(--font-base);
+  /* font-size: var(--font-base); */
+  font-size: inherit;
+  font-family: inherit;
+  font-feature-settings: inherit;
   min-height: 2.5rem;
   border: 0px solid var(--color-bg-accent);
   border-radius: 0.875rem;

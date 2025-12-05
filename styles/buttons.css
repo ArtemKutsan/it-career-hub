@@ -13,7 +13,7 @@
   min-height: 2.5rem;
   min-width: 2.5rem;
 
-  font-size: var(--font-base);
+  font-size: inherit;
   font-family: inherit;
   font-feature-settings: inherit;
   font-weight: 600;
@@ -25,8 +25,7 @@
   border-radius: 0.875rem;
   cursor: pointer;
 
-  transition: background-color 0.25s ease, color 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
 
   width: fit-content;
   height: fit-content;
@@ -95,11 +94,7 @@
 }
 
 .btn-ghost:active {
-  background-color: color-mix(
-    in srgb,
-    var(--color-bg-accent),
-    var(--color-dark) 20%
-  );
+  background-color: color-mix(in srgb, var(--color-bg-accent), var(--color-dark) 20%);
 }
 
 /* ===== Bordered with variants ===== */
