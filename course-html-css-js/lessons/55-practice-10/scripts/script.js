@@ -93,7 +93,7 @@ class Account {
     }
   }
 
-  thdraw(amount) {
+  withdraw(amount) {
     if (amount <= 0) {
       console.log('Сумма должна быть больше нуля');
       return;
