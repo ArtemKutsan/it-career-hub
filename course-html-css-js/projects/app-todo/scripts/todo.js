@@ -519,9 +519,8 @@ const createTodoElement = (todo) => {
 // Рендер (добавление в слой div #todos-list) элемент созданный для каждой задачи
 const renderTodos = () => {
   const { filteredTodos, filter, searchStr } = applyFilters();
-  console.log('filter', filter);
   const todosQty = filteredTodos.length;
-  const wordFind = pluralize(todosQty, 'Найдена', 'Найдено', 'Найдено');
+  const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
   const wordFilter = (() => {
     switch (filter) {
