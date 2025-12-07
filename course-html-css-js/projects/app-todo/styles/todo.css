@@ -227,29 +227,30 @@ input[type='time'] {
   color: var(--color-text-inverse);
 }
 
-/* .planned .badge-current {
-  background-color: #60708f;
+.planned .badge-current {
+  background-color: var(--color-accent);
 }
 
 .planned .badge-soon {
-  background-color: #8090ac;
+  background-color: var(--color-accent);
 }
 
 .planned .badge-today {
-  background-color: #a9bfd8;
+  background-color: var(--color-accent);
 }
 
 .planned .badge-tomorrow {
-  background-color: #bfdcd1; 
+  background-color: var(--color-text);
 }
 
 .planned .badge-later {
-  background-color: #e4e4e4;
+  background-color: var(--color-text-lite);
 }
 
 .planned .badge-expired {
-  background-color: #c88e7a;
-} */
+  background-color: var(--color-secondary);
+  color: var(--color-light);
+}
 
 .todo .edit-btn {
   margin-left: auto;
