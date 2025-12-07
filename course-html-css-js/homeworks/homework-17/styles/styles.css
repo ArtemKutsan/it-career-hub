@@ -1,10 +1,8 @@
-/* course-html-css-js/homeworks/homework-17/styles/styles.css */
-
 @charset "UTF-8";
-/* Задание 1.
-Создать переменную и использовать ее в стилях. Требования: Создайте переменную с именем 
+/* course-html-css-js/homeworks/homework-17/styles/styles.scss */
+/* Создать переменную и использовать ее в стилях. Требования: Создайте переменную с именем 
 primary-color и присвойте ей значение #FF0000. Используйте переменную primary-color для установки 
 цвета текста в элементе с классом .heading. */
 .heading {
   color: #ff0000;
-} /*# sourceMappingURL=styles.css.map */
+}/*# sourceMappingURL=styles.css.map */

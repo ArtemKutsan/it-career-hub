@@ -1,56 +1,56 @@
 /* App Todo */
 
 // Ключи для localStorage
-const todosKey = "todos";
-const trashKey = "trash";
+const todosKey = 'todos';
+const trashKey = 'trash';
 
 // Тестовые данные при первом запуске (при пустом localStorage)
 const mockTodosData = [
   {
-    id: "8888bb96",
-    title: "Позвонить куратору",
+    id: '8888bb96',
+    title: 'Позвонить куратору',
     completed: false,
     date: Date.now() - 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "f78e98b3",
-    title: "Отправить отчет",
+    id: 'f78e98b3',
+    title: 'Отправить отчет',
     completed: false,
     date: Date.now() + 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "3e8de8a2",
-    title: "Протестировать приложение Todo.App",
+    id: '3e8de8a2',
+    title: 'Протестировать приложение Todo.App',
     completed: false,
     date: Date.now() + 2 * 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "88bb9688",
-    title: "Купить продукты",
+    id: '88bb9688',
+    title: 'Купить продукты',
     completed: false,
     date: Date.now() + 6 * 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "c3958f89",
-    title: "Залить проект на GitHub",
+    id: 'c3958f89',
+    title: 'Залить проект на GitHub',
     completed: false,
     date: Date.now() + 24 * 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "c8f9a767",
-    title: "Создать ветку для релиза Todo.App",
+    id: 'c8f9a767',
+    title: 'Создать ветку для релиза Todo.App',
     completed: false,
     date: Date.now() + 48 * 3600_000,
     createdAt: Date.now(),
   },
   {
-    id: "e78c78ff",
-    title: "Заказать пиццу на вечер",
+    id: 'e78c78ff',
+    title: 'Заказать пиццу на вечер',
     completed: true,
     date: Date.now() + 3 * 3600_000,
     createdAt: Date.now() + 3 * 3600_000,
@@ -60,8 +60,8 @@ const mockTodosData = [
 // Тестовые данные при первом запуске (при пустом localStorage)
 mockTrashData = [
   {
-    id: "a3e48f31",
-    title: "Купить батарейки",
+    id: 'a3e48f31',
+    title: 'Купить батарейки',
     completed: true,
     date: Date.now() - 48 * 3600_000,
     createdAt: Date.now() - 96 * 3600_000,
@@ -77,26 +77,25 @@ let trash = getData(trashKey) || mockTrashData;
 let currentEditingId = null;
 
 // DOM элементы
-const todosListEl = document.querySelector("#todos-list");
-const todosFilterEls = document.querySelectorAll(".todos-filter");
-const todosSearchEl = document.querySelector("#todos-search");
-const cleanInputBtns = document.querySelectorAll(".clean-input-btn");
-const addTodoBtn = document.querySelector("#add-todo-btn");
-const todoDialogEl = document.querySelector("#todo-dialog");
-const todoDialogActionBtn = document.querySelector("#todo-dialog-action-btn");
-const cancelBtn = document.querySelector("#cancel-btn");
+const todosListEl = document.querySelector('#todos-list');
+const todosFilterEls = document.querySelectorAll('.todos-filter');
+const todosSearchEl = document.querySelector('#todos-search');
+const cleanInputBtns = document.querySelectorAll('.clean-input-btn');
+const addTodoBtn = document.querySelector('#add-todo-btn');
+const todoDialogEl = document.querySelector('#todo-dialog');
+const todoDialogActionBtn = document.querySelector('#todo-dialog-action-btn');
+const cancelBtn = document.querySelector('#cancel-btn');
 
 // Определяем текущий день недели и дату
-const weekday = new Date().toLocaleString("ru-RU", { weekday: "long" });
-const date = new Date().toLocaleString("ru-RU", {
-  day: "numeric",
-  month: "long",
+const weekday = new Date().toLocaleString('ru-RU', { weekday: 'long' });
+const date = new Date().toLocaleString('ru-RU', {
+  day: 'numeric',
+  month: 'long',
 });
 
 // Отображаем текущую дату в заголовке приложения
-document.querySelector(".current-weekday").textContent =
-  capitalizeFirstLetter(weekday);
-document.querySelector(".current-date").textContent = date;
+document.querySelector('.current-weekday').textContent = capitalizeFirstLetter(weekday);
+document.querySelector('.current-date').textContent = date;
 
 // Получение данных из localStorage
 function getData(key) {
@@ -128,11 +127,11 @@ const findTodo = (id) => todos.find((todo) => todo.id === id);
 
 // Фильтр по статусу выполнения
 const filterByStatus = (list, status) =>
-  status === "active"
+  status === 'active'
     ? list.filter((todo) => !todo.completed)
-    : status === "done"
+    : status === 'done'
     ? list.filter((todo) => todo.completed)
-    : status === "deleted"
+    : status === 'deleted'
     ? trash
     : list;
 
@@ -254,14 +253,13 @@ const restoreTodo = (id) => {
 
 // Применяем фильтры
 const applyFilters = () => {
-  const filter =
-    document.querySelector('input[name="filter"]:checked')?.id || "all";
+  const filter = document.querySelector('input[name="filter"]:checked')?.id || 'all';
   const searchStr = todosSearchEl.value.trim().toLowerCase();
 
   let todosList = filterByStatus(todos, filter);
   todosList = filterByString(todosList, searchStr);
   // Не сортируем корзину а выводим ее массив в порядке удаления
-  todosList = filter !== "deleted" ? sortTodos(todosList) : todosList;
+  todosList = filter !== 'deleted' ? sortTodos(todosList) : todosList;
 
   return todosList;
 };
@@ -272,7 +270,7 @@ const applyFilters = () => {
 function computePlannedStatus(todo, now = Date.now()) {
   const due = todo.date;
 
-  if (due <= now) return "expired";
+  if (due <= now) return 'expired';
 
   const diff = due - now;
 
@@ -298,11 +296,11 @@ function computePlannedStatus(todo, now = Date.now()) {
     );
   })();
 
-  if (diff < CURRENT) return "current";
-  if (diff < SOON) return "soon";
-  if (isSameDay) return "today";
-  if (isTomorrow) return "tomorrow";
-  return "later";
+  if (diff < CURRENT) return 'current';
+  if (diff < SOON) return 'soon';
+  if (isSameDay) return 'today';
+  if (isTomorrow) return 'tomorrow';
+  return 'later';
 }
 
 // Обновление статусов всех задач и сохранение
@@ -416,7 +414,7 @@ function stopHiddenFallback() {
   hiddenFallbackInterval = null;
 }
 
-document.addEventListener("visibilitychange", () => {
+document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     startHiddenFallback();
   } else {
@@ -425,67 +423,67 @@ document.addEventListener("visibilitychange", () => {
   }
 });
 
-window.addEventListener("focus", () => {
+window.addEventListener('focus', () => {
   schedulePlannedUpdate();
 });
 
 // Создание HTML элемента задачи
 const createTodoElement = (todo) => {
-  const divEl = document.createElement("div");
-  divEl.className = "todo";
+  const divEl = document.createElement('div');
+  divEl.className = 'todo';
   divEl.dataset.id = todo.id;
 
-  const labelEl = document.createElement("label");
+  const labelEl = document.createElement('label');
   // labelEl.className = "todo";
   // labelEl.dataset.id = todo.id;
 
-  const checkboxInputEl = document.createElement("input");
-  checkboxInputEl.type = "checkbox";
+  const checkboxInputEl = document.createElement('input');
+  checkboxInputEl.type = 'checkbox';
   checkboxInputEl.checked = todo.completed;
 
-  const spanCheckboxEl = document.createElement("span");
-  spanCheckboxEl.className = "checkbox";
+  const spanCheckboxEl = document.createElement('span');
+  spanCheckboxEl.className = 'checkbox';
 
-  const divTodoContentEl = document.createElement("div");
-  divTodoContentEl.className = "todo-content";
+  const divTodoContentEl = document.createElement('div');
+  divTodoContentEl.className = 'todo-content';
 
-  const divPlannedEl = document.createElement("div");
-  divPlannedEl.className = "planned";
+  const divPlannedEl = document.createElement('div');
+  divPlannedEl.className = 'planned';
 
-  const spanPlannedEl = document.createElement("span");
+  const spanPlannedEl = document.createElement('span');
   spanPlannedEl.className = `badge badge-${todo.planned}`;
   spanPlannedEl.textContent =
-    todo.planned === "current"
-      ? "Сейчас"
-      : todo.planned === "soon"
-      ? "Скоро"
-      : todo.planned === "today"
-      ? "Сегодня"
-      : todo.planned === "tomorrow"
-      ? "Завтра"
-      : todo.planned === "later"
-      ? "Позже"
-      : "Просрочено";
+    todo.planned === 'current'
+      ? 'Сейчас'
+      : todo.planned === 'soon'
+      ? 'Скоро'
+      : todo.planned === 'today'
+      ? 'Сегодня'
+      : todo.planned === 'tomorrow'
+      ? 'Завтра'
+      : todo.planned === 'later'
+      ? 'Позже'
+      : 'Просрочено';
 
-  const spanTodoDatetimeEl = document.createElement("span");
-  spanTodoDatetimeEl.className = "todo-datetime text-sm text-lite";
-  spanTodoDatetimeEl.textContent = new Date(todo.date).toLocaleString("ru-RU", {
-    day: "numeric",
-    month: "long",
-    hour: "2-digit",
-    minute: "2-digit",
+  const spanTodoDatetimeEl = document.createElement('span');
+  spanTodoDatetimeEl.className = 'todo-datetime text-sm text-lite';
+  spanTodoDatetimeEl.textContent = new Date(todo.date).toLocaleString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit',
   });
 
-  const spanTodoTitleEl = document.createElement("span");
-  spanTodoTitleEl.className = "todo-title";
+  const spanTodoTitleEl = document.createElement('span');
+  spanTodoTitleEl.className = 'todo-title';
   spanTodoTitleEl.textContent = todo.title;
 
   if (todo.deleted) {
-    spanCheckboxEl.classList.add("inactive"); // Делаем chrckbox неактивным
+    spanCheckboxEl.classList.add('inactive'); // Делаем chrckbox неактивным
 
-    const buttonRestoreBtnEl = document.createElement("button");
-    buttonRestoreBtnEl.type = "button";
-    buttonRestoreBtnEl.className = "restore-btn btn btn-ghost";
+    const buttonRestoreBtnEl = document.createElement('button');
+    buttonRestoreBtnEl.type = 'button';
+    buttonRestoreBtnEl.className = 'restore-btn btn btn-ghost';
     buttonRestoreBtnEl.innerHTML = `<span class="text-2xl material-symbols-outlined">restore_from_trash</span>`;
 
     divPlannedEl.append(spanTodoDatetimeEl);
@@ -493,14 +491,14 @@ const createTodoElement = (todo) => {
     divTodoContentEl.append(divPlannedEl, spanTodoTitleEl);
     divEl.append(labelEl, divTodoContentEl, buttonRestoreBtnEl);
   } else {
-    const buttonEditBtnEl = document.createElement("button");
-    buttonEditBtnEl.type = "button";
-    buttonEditBtnEl.className = "edit-btn btn btn-ghost";
+    const buttonEditBtnEl = document.createElement('button');
+    buttonEditBtnEl.type = 'button';
+    buttonEditBtnEl.className = 'edit-btn btn btn-ghost';
     buttonEditBtnEl.innerHTML = `<span class="text-2xl material-symbols-outlined">edit</span>`;
 
-    const buttonDeleteBtnEl = document.createElement("button");
-    buttonDeleteBtnEl.type = "button";
-    buttonDeleteBtnEl.className = "delete-btn btn btn-ghost";
+    const buttonDeleteBtnEl = document.createElement('button');
+    buttonDeleteBtnEl.type = 'button';
+    buttonDeleteBtnEl.className = 'delete-btn btn btn-ghost';
     buttonDeleteBtnEl.innerHTML = `<span class="text-2xl material-symbols-outlined">delete</span>`;
 
     if (!todo.completed) divPlannedEl.append(spanPlannedEl, spanTodoDatetimeEl);
@@ -522,72 +520,64 @@ const createTodoElement = (todo) => {
 const renderTodos = () => {
   const filteredTodos = applyFilters();
   const todosQty = filteredTodos.length;
-  const wordFind = pluralize(todosQty, "Найдена", "Найдено", "Найдено");
-  const wordTask = pluralize(todosQty, "задача", "задачи", "задач");
+  const wordFind = pluralize(todosQty, 'Найдена', 'Найдено', 'Найдено');
+  const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
   // "Найдено n задач"
-  todosListEl.innerHTML = `<span>${wordFind} ${todosQty} ${wordTask}</span>`;
+  todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordTask}</span>`;
 
   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
   // для каждой задачи (слой div .todo и всем содержимым)
-  filteredTodos.forEach((todo) =>
-    todosListEl.appendChild(createTodoElement(todo))
-  );
+  filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
 };
 
 /* ===== События ===== */
 
 // Обработчик события выбора статуса выполнения
 // todosFilterEl.addEventListener("change", renderTodos);
-todosFilterEls.forEach((filter) =>
-  filter.addEventListener("change", renderTodos)
-);
+todosFilterEls.forEach((filter) => filter.addEventListener('change', renderTodos));
 
 // Обработчик события ввода в строку поиска
-todosSearchEl.addEventListener("input", renderTodos);
+todosSearchEl.addEventListener('input', renderTodos);
 
 // Обработчики событий кнопок очистки введенной строки на всех input (text)
 cleanInputBtns.forEach((button) =>
-  button.addEventListener("click", (event) => {
-    event.currentTarget.parentElement.querySelector("input").value = "";
+  button.addEventListener('click', (event) => {
+    event.currentTarget.parentElement.querySelector('input').value = '';
     renderTodos();
   })
 );
 
 // Обработчик события нажатия кнопки открытия диалога добавления задачи
-addTodoBtn.addEventListener("click", () => {
+addTodoBtn.addEventListener('click', () => {
   currentEditingId = null;
 
   const now = new Date();
 
-  document.querySelector("#new-todo-title").value = "";
-  document.querySelector("#new-todo-date").value =
-    now.toLocaleDateString("sv-SE");
-  document.querySelector("#new-todo-time").value = now.toLocaleTimeString(
-    "sv-SE",
-    {
-      hour: "2-digit",
-      minute: "2-digit",
-    }
-  );
+  document.querySelector('#new-todo-title').value = '';
+  document.querySelector('#new-todo-date').value = now.toLocaleDateString('sv-SE');
+  document.querySelector('#new-todo-time').value = now.toLocaleTimeString('sv-SE', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 
-  todoDialogActionBtn.value = "Добавить";
+  todoDialogActionBtn.value = 'Добавить';
 
-  document.body.classList.toggle("no-scroll");
-  todoDialogEl.classList.toggle("invisible");
+  document.body.classList.toggle('no-scroll');
+  todoDialogEl.classList.toggle('invisible');
 });
 
-todoDialogActionBtn.addEventListener("click", (event) => {
+todoDialogActionBtn.addEventListener('click', (event) => {
   event.preventDefault();
 
-  const title = document.querySelector("#new-todo-title").value.trim();
-  const date = document.querySelector("#new-todo-date").value;
-  const time = document.querySelector("#new-todo-time").value;
+  const title = document.querySelector('#new-todo-title').value.trim();
+  const date = document.querySelector('#new-todo-date').value;
+  const time = document.querySelector('#new-todo-time').value;
 
   if (!title) return;
 
-  const datetime = new Date(`${date}T${time || "00:00"}`);
+  const datetime = new Date(`${date}T${time || '00:00'}`);
 
   if (currentEditingId) {
     editTodo(currentEditingId, title, datetime);
@@ -597,23 +587,23 @@ todoDialogActionBtn.addEventListener("click", (event) => {
     addTodo(title, datetime);
   }
 
-  document.body.classList.toggle("no-scroll");
-  todoDialogEl.classList.toggle("invisible");
+  document.body.classList.toggle('no-scroll');
+  todoDialogEl.classList.toggle('invisible');
 
   renderTodos();
 });
 
-cancelBtn.addEventListener("click", () => {
+cancelBtn.addEventListener('click', () => {
   currentEditingId = null;
 
-  document.body.classList.toggle("no-scroll");
-  todoDialogEl.classList.toggle("invisible");
+  document.body.classList.toggle('no-scroll');
+  todoDialogEl.classList.toggle('invisible');
 
   // todoDialogActionBtn.value = "Добавить"; // Протестировать!!!
 });
 
-todosListEl.addEventListener("click", (event) => {
-  const todoEl = event.target.closest(".todo");
+todosListEl.addEventListener('click', (event) => {
+  const todoEl = event.target.closest('.todo');
   if (!todoEl) return;
 
   const id = todoEl.dataset.id;
@@ -624,41 +614,37 @@ todosListEl.addEventListener("click", (event) => {
     return;
   }
 
-  if (event.target.closest(".edit-btn")) {
+  if (event.target.closest('.edit-btn')) {
     const todo = findTodo(id);
     if (!todo) return;
 
     currentEditingId = id;
 
-    document.querySelector("#new-todo-title").value = todo.title;
-    todoDialogActionBtn.value = "Изменить";
+    document.querySelector('#new-todo-title').value = todo.title;
+    todoDialogActionBtn.value = 'Изменить';
 
     const date = new Date(todo.date);
 
     // Устанавливаем дату в формате YYYY-MM-DD для input[type="date"]
-    document.querySelector("#new-todo-date").value =
-      date.toLocaleDateString("sv-SE");
+    document.querySelector('#new-todo-date').value = date.toLocaleDateString('sv-SE');
 
     // Устанавливаем время в формате HH:MM для input[type="time"]
-    document.querySelector("#new-todo-time").value = date.toLocaleTimeString(
-      "sv-SE",
-      {
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    );
+    document.querySelector('#new-todo-time').value = date.toLocaleTimeString('sv-SE', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
 
-    document.body.classList.toggle("no-scroll");
-    todoDialogEl.classList.toggle("invisible");
+    document.body.classList.toggle('no-scroll');
+    todoDialogEl.classList.toggle('invisible');
     return;
   }
 
-  if (event.target.closest(".delete-btn")) {
+  if (event.target.closest('.delete-btn')) {
     deleteTodo(id);
     renderTodos();
   }
 
-  if (event.target.closest(".restore-btn")) {
+  if (event.target.closest('.restore-btn')) {
     restoreTodo(id);
     renderTodos();
   }

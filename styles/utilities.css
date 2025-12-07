@@ -865,57 +865,65 @@
   overflow: hidden;
 }
 
+.text-3xs {
+  font-size: var(--font-3xs); /* 8px */
+  line-height: 1rem;
+}
+.text-2xs {
+  font-size: var(--font-2xs); /* 10px */
+  line-height: 1rem;
+}
 .text-xs {
   font-size: var(--font-xs); /* 12px */
   line-height: 1rem;
 }
 .text-sm {
   font-size: var(--font-sm); /* 14px */
-  line-height: 1.125rem;
+  line-height: 1.4285;
 }
 .text-base {
   font-size: var(--font-base); /* 16px */
-  line-height: 1.25rem;
+  line-height: 1.25;
 }
 .text-lg {
   font-size: var(--font-lg); /* 18px */
-  line-height: 1.5rem;
+  line-height: 1.222;
 }
 .text-xl {
   font-size: var(--font-xl); /* 20px */
-  line-height: 1.75rem;
+  line-height: 1.2;
 }
 .text-2xl {
   font-size: var(--font-2xl); /* 24px */
-  line-height: 2rem;
+  line-height: 1.333;
 }
 .text-3xl {
   font-size: var(--font-3xl); /* 30px */
-  line-height: 2.25rem;
+  line-height: 1.2;
 }
 .text-4xl {
   font-size: var(--font-4xl); /* 36px */
-  line-height: 2.5rem;
+  line-height: 1.111;
 }
 .text-5xl {
   font-size: var(--font-5xl); /* 48px */
-  line-height: 3rem;
+  line-height: 1;
 }
 .text-6xl {
   font-size: var(--font-6xl); /* 60px */
-  line-height: 3.75rem;
+  line-height: 1;
 }
 .text-7xl {
   font-size: var(--font-7xl); /* 72px */
-  line-height: 4.5rem;
+  line-height: 1;
 }
 .text-8xl {
   font-size: var(--font-8xl); /* 96px */
-  line-height: 6rem;
+  line-height: 1;
 }
 .text-9xl {
   font-size: var(--font-9xl); /* 128px */
-  line-height: 8rem;
+  line-height: 1;
 }
 
 .tracking-tighter {

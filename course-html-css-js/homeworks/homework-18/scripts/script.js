@@ -8,11 +8,10 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 /* ===== END ===== */
 
 const resourceUrl1 = `./styles/variables/_colors.scss`;
-const resourceUrl2 = `./styles/sections/_header.scss`;
-const resourceUrl3 = `./styles/styles.scss`;
+const resourceUrl2 = `./styles/styles.scss`;
 // const resourceUrl4 = `./index.html`;
 
-fetchAsText(resourceUrl1, resourceUrl2, resourceUrl3).then(async (results) => {
+fetchAsText(resourceUrl1, resourceUrl2).then(async (results) => {
   const codeBlock = document.querySelector('#code-block');
   if (!codeBlock) return;
 

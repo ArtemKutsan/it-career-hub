@@ -62,7 +62,7 @@ const renderPostCard = (post) => {
     <h4 class="">${capitalizeFirstLetter(post.title)}</h4>
     <p class="mb-2">
       ${capitalizeFirstLetter(post.description)}
-      <a class="link text-sm mx-2" href="./post.html?postId=${post.id}" data-id="${post.id}">
+      <a class="link text-sm" href="./post.html?postId=${post.id}" data-id="${post.id}">
         Читать далее
       </a>
     </p>

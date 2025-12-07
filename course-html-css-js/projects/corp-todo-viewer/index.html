@@ -38,7 +38,7 @@
 		<header>
 			<div class="container flex items-center justify-between px-8">
 				<h4 class="uppercase">
-					<a class="flex" href="../../../index.html">
+					<a class="flex flex-wrap" href="../../../index.html">
 						<span class="text-secondary font-black">ICH</span>
 						<span class="font-black text-muted">.</span>
 						<span class="text-accent">CorpTodoViewer</span>
@@ -70,7 +70,7 @@
 									<!-- Фильтр по статусу -->
 									<div id="todos-filter">
 										<!-- Поиск -->
-										<div class="relative flex items-center">
+										<div class="relative flex items-center flex-1">
 											<input id="todos-search" class="search" type="text" name="search" placeholder="Поиск задач">
 											<span class="absolute left-3 text-muted material-symbols-outlined">
 												search
@@ -101,7 +101,7 @@
 										</div>
 
 										<!-- Фильтр по пользователю -->
-										<div class="relative flex items-center">
+										<div class="relative flex items-center flex-1">
 											<select id="user-select"></select>
 											<span class="absolute right-2 text-elevated pointer-events-none material-symbols-outlined">
 												arrow_drop_down
@@ -125,7 +125,7 @@
 
 	</div>
 
-	<footer>
+	<footer class="text-sm">
 		<div id="footer-content" class="container px-8">
 			<div class="flex flex-col justify-between text-left gap-2">
 				<span class="font-semibold text-accent">It Career Hub Web Developer</span>

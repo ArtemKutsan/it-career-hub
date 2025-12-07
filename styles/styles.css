@@ -118,7 +118,7 @@ input[type='email'],
 input[type='tel'],
 input[type='password'] {
   padding: 0.5rem 2.5rem 0.5rem 1rem;
-  font-size: var(--font-base);
+  font-size: inherit;
   min-height: 2.5rem;
   border: 0px solid var(--color-bg-accent);
   border-radius: 0.875rem;
@@ -127,6 +127,9 @@ input[type='password'] {
   background: var(--color-elevated);
   margin-bottom: 0.5rem;
   width: 100%;
+  font-size: var(--font-sm);
+  font-family: inherit;
+  font-feature-settings: inherit;
 }
 input[type='text']::placeholder,
 input[type='email']::placeholder,
@@ -152,7 +155,7 @@ footer {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  font-size: var(--font-sm);
+  /* font-size: var(--font-sm); */
 }
 /* ===== END ===== */
 
@@ -179,13 +182,13 @@ footer {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 389px) {
   html {
     font-size: 18px;
   }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 374px) {
   .container {
     padding: 0 1rem;
   }
