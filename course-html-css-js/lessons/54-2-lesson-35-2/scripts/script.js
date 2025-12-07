@@ -11,25 +11,23 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 // ● У класса должен быть метод getArea(), который возвращает площадь круга.
 // ● У класса также должен быть метод getCircumference(), который возвращает длину окружности круга.
 // ● Создайте экземпляр класса и выведите результаты вызова методов.
-{
-  class Circle {
-    constructor(radius) {
-      this.radius = radius;
-    }
-
-    getArea() {
-      return Math.PI * this.radius ** 2;
-    }
-
-    getCircumference() {
-      return 2 * Math.PI * this.radius;
-    }
+class Circle {
+  constructor(radius) {
+    this.radius = radius;
   }
 
-  const circle = new Circle(5);
-  console.log('Площадь круга:', circle.getArea().toFixed(2));
-  console.log('Длина окружности:', circle.getCircumference().toFixed(2));
+  getArea() {
+    return Math.PI * this.radius ** 2;
+  }
+
+  getCircumference() {
+    return 2 * Math.PI * this.radius;
+  }
 }
+
+const circle = new Circle(5);
+console.log('Площадь круга:', circle.getArea().toFixed(2));
+console.log('Длина окружности:', circle.getCircumference().toFixed(2));
 
 // Задача 2.
 // ● Создайте класс Rectangle, который принимает ширину и высоту при создании.
@@ -92,10 +90,10 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
     }
   }
 
-  const rect = new Rectangle(4, 6);
-  const circ = new Circle(5);
-  console.log('Площадь прямоугольника:', rect.calculateArea());
-  console.log('Площадь круга:', circ.calculateArea().toFixed(2));
+  const rectangle = new Rectangle(4, 6);
+  const circle = new Circle(5);
+  console.log('Площадь прямоугольника:', rectangle.calculateArea());
+  console.log('Площадь круга:', circle.calculateArea().toFixed(2));
 }
 
 // Задача 4.
@@ -103,66 +101,62 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 // ● Создайте два наследника класса Transport: Car и Bicycle.
 // ● У каждого наследника должен быть свой метод move(), который переопределяет метод родительского класса.
 // ● Создайте экземпляры классов Car и Bicycle и вызовите их методы move().
-{
-  class Transport {
-    move() {
-      throw new Error('Метод move() должен быть переопределен в подклассе');
-    }
+class Transport {
+  move() {
+    throw new Error('Метод move() должен быть переопределен в подклассе');
   }
-
-  class Car extends Transport {
-    move() {
-      console.log('Автомобиль едет с помощью двигателя');
-    }
-  }
-
-  class Bicycle extends Transport {
-    move() {
-      console.log('Велосипед движется с помощью человека');
-    }
-  }
-
-  const car = new Car();
-  const bicycle = new Bicycle();
-  car.move();
-  bicycle.move();
 }
+
+class Car extends Transport {
+  move() {
+    console.log('Автомобиль едет с помощью двигателя');
+  }
+}
+
+class Bicycle extends Transport {
+  move() {
+    console.log('Велосипед движется с помощью человека');
+  }
+}
+
+const car = new Car();
+const bicycle = new Bicycle();
+car.move();
+bicycle.move();
 
 // Задача 5.
 // ● Создайте класс Person, который имеет свойство name.
 // ● Используйте геттер и сеттер для доступа к свойству name.
 // ● При попытке установить пустое имя сеттер должен вывести сообщение об ошибке.
 // ● Создайте экземпляр класса, установите имя и выведите имя с помощью геттера.
-{
-  class Person {
-    #name;
+class Person {
+  #name;
 
-    constructor(name) {
-      this.#name = name;
-    }
-
-    get name() {
-      return this.#name;
-    }
-
-    set name(value) {
-      if (value === '' || value == null) {
-        console.error('Ошибка: Имя не может быть пустым');
-        return;
-      }
-      this.#name = value;
-    }
+  constructor(name) {
+    this.#name = name;
   }
 
-  const person = new Person('Artem');
-  console.log('Имя:', person.name);
+  get name() {
+    return this.#name;
+  }
 
-  person.name = 'Max';
-  console.log('Новое имя:', person.name);
-
-  person.name = '';
-  console.log('Имя после попытки изменить на недопустимое:', person.name);
+  set name(value) {
+    if (value === '' || value == null) {
+      console.error('Ошибка: Имя не может быть пустым');
+      return;
+    }
+    this.#name = value;
+  }
 }
+
+const person = new Person('Artem');
+console.log('Имя:', person.name);
+
+person.name = 'Max';
+console.log('Новое имя:', person.name);
+
+person.name = '';
+console.log('Имя после попытки изменить на недопустимое:', person.name);
 
 // Задача 6.
 // ● Создайте класс Car, у которого есть приватное свойство mileage.
@@ -199,6 +193,7 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
   car.mileage = -500;
   console.log('Пробег после попытки изменить на недопустимый:', car.mileage);
 }
+
 /* ===== END ===== */
 
 const resourceUrl = `./scripts/script.js`;

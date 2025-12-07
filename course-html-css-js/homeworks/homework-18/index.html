@@ -36,7 +36,7 @@
     <header>
       <div class="container flex items-center justify-between px-8">
         <h4 class="uppercase">
-          <a class="flex" href="../../../index.html">
+          <a class="flex flex-wrap" href="../../../index.html">
             <span class="text-secondary font-black">ICH</span>
             <span class="font-black text-muted">.</span>
             <span class="text-accent">WD</span>
@@ -58,18 +58,17 @@
 
           <!-- ===== Homework ===== -->
           <!-- Контент -->
-          <div class="content prose m-auto">
-            <h1>Homework 18</h1>
-
-            <div class="mb-4">
-              <p>Этот блок с классом content.</p>
+          <div>
+            <div class="content-lg prose m-auto mb-4">
+              <h2>Homework 18</h2>
+              <p>Этот блок с классом content-lg.</p>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas a blanditiis cumque quibusdam! Laboriosam adipisci doloremque voluptatem dolor exercitationem magni deleniti quia distinctio, ab autem recusandae, vero atque. Maiores qui delectus alias voluptates voluptatum temporibus est officia animi id non placeat ab, at hic, vitae voluptas nam, nostrum esse fuga.</p>
               <button class="button">Button</button>
               <button class="button-secondary">Button secondary</button>
             </div>
 
             <!-- В этом div выводятся блоки кода из любых файлов загруженных через fetch-as-text.js -->
-            <div id="code-block" class="flex flex-col gap-4 text-sm mt-4"></div>
+            <div id="code-block" class="content m-auto flex flex-col gap-4 text-sm mt-4"></div>
           </div>
           <!-- ===== Homework END ===== -->
 
@@ -82,9 +81,9 @@
 
   </div>
 
-  <footer>
+  <footer class="text-sm">
     <div id="footer-content" class="container px-8">
-      <div class="flex flex-col justify-between text-left gap-2">
+      <div class="flex flex-col justify-between text-left gap-1">
         <span class="font-semibold text-accent">It Career Hub Web Developer</span>
         <span>Designed & built by&nbsp;<a class="link nowrap" href="https://artemkutsan.pp.ua">Artem Kutsan</a></span>
         <span>&copy; Copyright 2025</span>

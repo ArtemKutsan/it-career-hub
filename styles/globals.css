@@ -2,6 +2,8 @@
 
 /* Размеры в px указаны для базового шрифта в 16px */
 :root {
+  --font-3xs: 0.5rem; /* 8px */
+  --font-2xs: 0.625rem; /* 10px */
   --font-xs: 0.75rem; /* 12px */
   --font-sm: 0.875rem; /* 14px */
   --font-base: 1rem; /* 16px */
@@ -214,7 +216,7 @@ footer {
   grid-area: footer;
   padding: 2rem 0;
   text-align: center;
-  border-top: 1px solid var(--color-bg-accent);
+  /* border-top: 1px solid var(--color-bg-accent); */
 }
 
 /* ===== Общие размеры ===== */
@@ -225,31 +227,38 @@ footer {
 /* Заголовки */
 :is(h1, h2, h3, h4, h5, h6) {
   color: var(--color-accent);
+  /* line-height: 1; */
   font-weight: 700;
 }
 h1 {
   font-size: var(--font-4xl);
-  line-height: 2.5rem;
+  /* line-height: 2.5rem; */
+  line-height: 1.111;
 }
 h2 {
   font-size: var(--font-3xl);
-  line-height: 2.25rem;
+  /* line-height: 2.25rem; */
+  line-height: 1.2;
 }
 h3 {
   font-size: var(--font-2xl);
-  line-height: 2rem;
+  /* line-height: 2rem; */
+  line-height: 1.333;
 }
 h4 {
   font-size: var(--font-xl);
-  line-height: 1.75rem;
+  /* line-height: 1.75rem; */
+  line-height: 1.2;
 }
 h5 {
   font-size: var(--font-lg);
-  line-height: 1.5rem;
+  /* line-height: 1.5rem; */
+  line-height: 1.222;
 }
 h6 {
   font-size: var(--font-base);
-  line-height: 1.25rem;
+  /* line-height: 1.25rem; */
+  line-height: 1.25;
 }
 
 pre {

@@ -41,7 +41,7 @@
     <header>
       <div class="container flex items-center justify-between px-8">
         <h4 class="uppercase">
-          <a class="flex" href="../../../index.html">
+          <a class="flex flex-wrap" href="../../../index.html">
             <span class="text-secondary font-black">ICH</span>
             <span class="font-black text-muted">.</span>
             <span class="text-accent">Auth</span>
@@ -58,12 +58,12 @@
     </header>
 
     <main class="flex flex-col items-center justify-center">
-      <section>
+      <section id="auth">
         <div class="container px-8">
           <div class="flex flex-col items-center justify-center gap-4">
             <!-- Register Form -->
             <form id="register-form" class="hidden">
-              <span class="title text-2xl text-center font-bold">Sing Up</span>
+              <span class="title text-3xl text-center font-bold">Sing Up</span>
 
               <label for="name" class="flex flex-col">
                 <!-- <span class="text-sm ml-2">Name&nbsp;<span class="text-secondary">*</span></span> -->
@@ -104,7 +104,7 @@
 
             <!-- Login Form -->
             <form id="login-form">
-              <span class="title text-2xl text-center font-bold">Sing In</span>
+              <span class="title text-3xl text-center font-bold">Sing In</span>
 
               <input id="email" name="email" type="email" placeholder="E-mail" required />
               <input id="password" name="password" type="password" placeholder="Password" required />
@@ -128,9 +128,9 @@
 
   </div>
 
-  <footer>
+  <footer class="text-sm">
     <div id="footer-content" class="container px-8">
-      <div class="flex flex-col justify-between text-left gap-2">
+      <div class="flex flex-col justify-between text-left gap-1">
         <span class="font-semibold text-accent">It Career Hub Web Developer</span>
         <span>Designed & built by&nbsp;<a class="link nowrap" href="https://artemkutsan.pp.ua">Artem Kutsan</a></span>
         <span>&copy; Copyright 2025</span>
