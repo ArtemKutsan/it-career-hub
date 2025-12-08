@@ -256,12 +256,12 @@ const applyFilters = () => {
   const filter = document.querySelector('input[name="filter"]:checked')?.id || 'all';
   const searchStr = todosSearchEl.value.trim().toLowerCase();
 
-  let todosList = filterByStatus(todos, filter);
-  todosList = filterByString(todosList, searchStr);
+  let filteredTodos = filterByStatus(todos, filter);
+  filteredTodos = filterByString(filteredTodos, searchStr);
   // Не сортируем корзину а выводим ее массив в порядке удаления
-  todosList = filter !== 'deleted' ? sortTodos(todosList) : todosList;
+  filteredTodos = filter !== 'deleted' ? sortTodos(filteredTodos) : filteredTodos;
 
-  return todosList;
+  return { filteredTodos, filter, searchStr };
 };
 
 /* ===== Планирование статусов задач ===== */
@@ -518,19 +518,50 @@ const createTodoElement = (todo) => {
 
 // Рендер (добавление в слой div #todos-list) элемент созданный для каждой задачи
 const renderTodos = () => {
-  const filteredTodos = applyFilters();
+  const { filteredTodos, filter, searchStr } = applyFilters();
   const todosQty = filteredTodos.length;
-  const wordFind = pluralize(todosQty, 'Найдена', 'Найдено', 'Найдено');
+  const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
+  const wordFilter = (() => {
+    switch (filter) {
+      case 'all':
+        return ''; // можно без этой проверки (оставлена для ясности)
+      case 'active':
+        return pluralize(filteredTodos.length, 'активная', 'активные', 'активных');
+      case 'done':
+        return pluralize(filteredTodos.length, 'завершенная', 'завершенных', 'завершенных');
+      case 'deleted':
+        return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
+      default:
+        return '';
+    }
+  })();
+  const searchStrText = searchStr ? `со строкой '${searchStr}'` : '';
+  // const extra = [wordFilter, searchStrText].filter(Boolean).join(' ');
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
   // "Найдено n задач"
-  todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordTask}</span>`;
+  todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordFilter} ${wordTask} ${searchStrText}</span>`;
 
   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
   // для каждой задачи (слой div .todo и всем содержимым)
   filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
 };
+
+// const renderTodos = () => {
+//   const filteredTodos = applyFilters();
+//   const todosQty = filteredTodos.length;
+//   const wordFind = pluralize(todosQty, 'Найдена', 'Найдено', 'Найдено');
+//   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
+
+//   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
+//   // "Найдено n задач"
+//   todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordTask}</span>`;
+
+//   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
+//   // для каждой задачи (слой div .todo и всем содержимым)
+//   filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
+// };
 
 /* ===== События ===== */
 
