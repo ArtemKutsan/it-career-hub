@@ -276,6 +276,16 @@ input[type='time'] {
 
 /* ===== Список задач END ===== */
 
+#bottom-buttons-group {
+  position: sticky;
+  z-index: 9999;
+  margin-left: auto;
+  margin-top: auto;
+  bottom: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
 /* !!! Доработать !!! */
 #trash {
   /* min-width: 3rem;
@@ -351,6 +361,11 @@ input[type='time'] {
   .todo {
     gap: 0.5rem;
     padding: 0.5rem;
+  }
+
+  #bottom-buttons-group {
+    bottom: 1rem;
+    gap: 0.5rem;
   }
 }
 
