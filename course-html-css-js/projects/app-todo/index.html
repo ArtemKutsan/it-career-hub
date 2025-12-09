@@ -69,19 +69,6 @@
 
               <form id="app-form" class="flex flex-col gap-4">
                 <div id="filters">
-
-                  <div class="relative flex items-center">
-                    <input id="todos-search" class="search" type="text" name="search" placeholder="Поиск задач">
-                    <span class="absolute left-3 text-muted material-symbols-outlined">
-                      search
-                    </span>
-                    <button type="button" class="clean-input-btn absolute right-1 btn btn-ghost btn-sm">
-                      <span class="text-secondary material-symbols-outlined">
-                        close
-                      </span>
-                    </button>
-                  </div>
-
                   <div class="todos-filter shadow">
                     <label class="filter" for="all">
                       <input type="radio" id="all" name="filter">
@@ -106,15 +93,19 @@
                         list_alt_check
                       </span>
                     </label>
-
-                    <!-- <label class="filter" for="deleted">
-                      <input type="radio" id="deleted" name="filter">
-                      <span class="material-symbols-outlined">
-                        delete
-                      </span>
-                    </label> -->
-
                   </div>
+                </div>
+
+                <div class="relative flex items-center">
+                  <input id="todos-search" class="search" type="text" name="search" placeholder="Поиск задач">
+                  <span class="absolute left-3 text-muted material-symbols-outlined">
+                    search
+                  </span>
+                  <button type="button" class="clean-input-btn absolute right-1 btn btn-ghost btn-sm">
+                    <span class="text-secondary material-symbols-outlined">
+                      close
+                    </span>
+                  </button>
                 </div>
 
                 <div id="todos-list" class="flex flex-col gap-4">
