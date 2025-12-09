@@ -1,0 +1,12 @@
+/* course-html-css-js/lessons/58-1-lesson-38-1/styles/styles.css */
+
+/* canvas {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: crisp-edges;
+} */
+
+#canvas {
+  border: 1px solid var(--color-text);
+}
