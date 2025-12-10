@@ -52,9 +52,9 @@ input[type='time'] {
 }
 
 #app-header {
-  /* display: flex;
+  display: flex;
   justify-content: space-between;
-  flex-direction: column; */
+  /* flex-direction: column; */
   width: 100%;
 }
 
@@ -109,27 +109,34 @@ input[type='time'] {
 }
 
 /* Кнопка-фильтр */
-.todos-filter .filter {
+#filters .todos-filter .filter {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.325rem 0.5rem;
-  cursor: pointer;
+  /* cursor: pointer; */
   user-select: none;
   border-right: 2px solid var(--color-accent);
-  color: var(--color-accent);
+  /* color: var(--color-accent); */
   gap: 0.25rem;
-  font-weight: 500;
+  /* font-weight: 500; */
 
-  background: var(--color-bg);
+  /* background: var(--color-bg); */
   /* height: 100%; */
   /* min-height: 2.5rem; */
 }
 
-.todos-filter .filter:last-of-type {
+#filters .todos-filter .filter:last-of-type {
   border-right: none;
   /* flex: none; */
+}
+
+.filter {
+  background: var(--color-bg);
+  color: var(--color-accent);
+  cursor: pointer;
+  font-weight: 500;
 }
 
 /* Визуальное вид выбранного фильтра */
@@ -290,12 +297,35 @@ input[type='time'] {
 }
 
 /* !!! Доработать !!! */
+.actual {
+  /* min-width: 3rem;
+  min-height: 3rem; */
+  /* border-radius: 9999px;
+  background: var(--color-bg); */
+}
+
+.expired {
+  border-radius: 9999px;
+  aspect-ratio: 1 / 1;
+  font-size: var(--font-sm);
+  color: var(--color-light);
+  background: var(--color-secondary);
+  top: -0.375rem;
+  right: -0.375rem;
+
+  min-height: 1.5rem;
+  min-width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #trash {
   /* min-width: 3rem;
   min-height: 3rem; */
-  border-radius: 9999px;
+  /* border-radius: 9999px; */
   border: 2px solid var(--color-accent);
-  background: var(--color-bg);
+  /* background: var(--color-bg); */
 }
 
 #todo-dialog {

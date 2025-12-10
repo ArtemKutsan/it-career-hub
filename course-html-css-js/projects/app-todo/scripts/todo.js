@@ -126,14 +126,24 @@ function capitalizeFirstLetter(str) {
 const findTodo = (id) => todos.find((todo) => todo.id === id);
 
 // Фильтр по статусу выполнения
-const filterByStatus = (list, status) =>
-  status === 'active'
-    ? list.filter((todo) => !todo.completed)
-    : status === 'done'
-    ? list.filter((todo) => todo.completed)
-    : status === 'deleted'
-    ? trash
-    : list;
+const filterByStatus = (list, status) => {
+  const today = new Date();
+  // Обнуляем время, чтобы сравнивать только дату
+  today.setHours(23, 59, 59, 999);
+
+  switch (status) {
+    case 'active':
+      return list.filter((todo) => !todo.completed); // активные задачи
+    case 'done':
+      return list.filter((todo) => todo.completed); // завершеннык задачи
+    case 'actual':
+      return list.filter((todo) => !todo.completed && new Date(todo.date) <= today); // активные задачи до конца сегодняшнего дня
+    case 'deleted':
+      return trash; // массив удаленных задач
+    default:
+      return list; // все задачи без удаленных
+  }
+};
 
 // Фильтр по строке
 const filterByString = (list, str) =>
@@ -198,8 +208,33 @@ const toggleTodo = (id) => {
 
   todo.completed = !todo.completed;
 
+  countActualTodos(todos); // при смене состояния todo пересчитываем активные
   setData(todosKey, todos);
   schedulePlannedUpdate();
+};
+
+// Подсчет кол-ва актуальных (сегодняшник) todo вместе с просроченными
+const countActualTodos = (todos) => {
+  const today = new Date();
+  // Обнуляем время, чтобы сравнивать только дату
+  today.setHours(23, 59, 59, 999);
+  const { actualQty, expiredQty } = todos.reduce(
+    (acc, curr) => {
+      const todoDate = new Date(curr.date);
+
+      return !curr.completed
+        ? todoDate < Date.now()
+          ? (acc.expiredQty++, acc.actualQty++, acc)
+          : todoDate <= today
+          ? (acc.actualQty++, acc)
+          : acc
+        : acc;
+    },
+    { actualQty: 0, expiredQty: 0 }
+  );
+
+  document.querySelectorAll('.actual').forEach((el) => (el.textContent = actualQty));
+  document.querySelectorAll('.expired').forEach((el) => (el.textContent = expiredQty));
 };
 
 // Удаление задачи
@@ -253,7 +288,7 @@ const restoreTodo = (id) => {
 
 // Применяем фильтры
 const applyFilters = () => {
-  const filter = document.querySelector('input[name="filter"]:checked')?.id || 'all';
+  const filter = document.querySelector('input[name="filter"]:checked')?.id || 'actual';
   const searchStr = todosSearchEl.value.trim().toLowerCase();
 
   let filteredTodos = filterByStatus(todos, filter);
@@ -519,6 +554,14 @@ const createTodoElement = (todo) => {
 // Рендер (добавление в слой div #todos-list) элемент созданный для каждой задачи
 const renderTodos = () => {
   const { filteredTodos, filter, searchStr } = applyFilters();
+
+  /* Начало. Перенести в функцию и вызывать в нужных местах или переделать чтобы 
+  все фильтры возвращали объект с подсчитанным кол-вом разных задач? */
+  if (filter === 'actual') {
+    countActualTodos(filteredTodos);
+  }
+  /* Конец */
+
   const todosQty = filteredTodos.length;
   const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
@@ -530,6 +573,8 @@ const renderTodos = () => {
         return pluralize(filteredTodos.length, 'активная', 'активные', 'активных');
       case 'done':
         return pluralize(filteredTodos.length, 'завершенная', 'завершенных', 'завершенных');
+      case 'actual':
+        return pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных');
       case 'deleted':
         return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
       default:
@@ -682,5 +727,6 @@ todosListEl.addEventListener('click', (event) => {
 });
 
 // Первоначальный рендер списка задач
+countActualTodos(todos);
 renderTodos();
 schedulePlannedUpdate();
