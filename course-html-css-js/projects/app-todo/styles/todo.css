@@ -154,6 +154,9 @@ input[type='time'] {
   background: var(--color-bg-accent);
   user-select: none;
 }
+.todo:last-of-type {
+  margin-bottom: 1rem;
+}
 
 .todo label {
   display: flex;
