@@ -10,19 +10,22 @@
   </script>
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
-  <!-- <script src="../../scripts/smooth-scroll.js" defer></script> -->
+  <!-- <script src="../../../scripts/smooth-scroll.js" defer></script> -->
 
-  <script type="module" src="../../scripts/theme-toggle.js" defer></script>
-  <script type="module" src="../../scripts/log-to-page.js" defer></script>
-  <script type="module" src="../../scripts/shiki-loader.js" defer></script>
+  <script type="module" src="../../../scripts/theme-toggle.js" defer></script>
+  <script type="module" src="../../../scripts/log-to-page.js" defer></script>
+  <script type="module" src="../../../scripts/shiki-loader.js" defer></script>
 
-  <script src="../../scripts/nav.js" defer></script>
-  <script src="../../scripts/timer.js" defer></script>
+  <script src="../../../scripts/nav.js" defer></script>
+  <script src="../../../scripts/timer.js" defer></script>
+
+  <script type="module" src="./scripts/script.js" defer></script>
 
   <title>ICH WD</title>
-  <link rel="icon" href="../../favicon.ico">
+  <link rel="icon" href="../../../favicon.ico">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link href="../../styles/styles.css" rel="stylesheet">
+  <link href="../../../styles/styles.css" rel="stylesheet">
+  <link href="./styles/styles.css" rel="stylesheet">
 </head>
 
 <body class="text-base">
@@ -33,7 +36,7 @@
     <header>
       <div class="container flex items-center justify-between px-8">
         <h4 class="uppercase">
-          <a class="flex" href="../../index.html">
+          <a class="flex flex-wrap" href="../../../index.html">
             <span class="text-secondary font-black">ICH</span>
             <span class="font-black text-muted">.</span>
             <span class="text-accent">WD</span>
@@ -56,29 +59,19 @@
           <!-- ===== Homework ===== -->
           <!-- Контент -->
           <div class="content prose m-auto">
-            <h2>Homeworks</h2>
+            <h2>Homework 22</h2>
 
-            <div class="flex flex-col">
-              <a class="link" href="./homework-14-1/">Homework 14-1</a>
-              <a class="link" href="./homework-15/">Homework 15</a>
-              <a class="link" href="./homework-15-1/">Homework 15-1</a>
-              <a class="link" href="./homework-16/">Homework 16</a>
-              <a class="link" href="./homework-16-1/">Homework 16-1</a>
-              <a class="link" href="./homework-17/">Homework 17</a>
-              <a class="link" href="./homework-18/">Homework 18</a>
-              <a class="link" href="./homework-19/">Homework 19</a>
-              <a class="link" href="./homework-20/">Homework 20</a>
-              <a class="link" href="./homework-21/">Homework 21</a>
-              <a class="link" href="./homework-22/">Homework 22</a>
+            <div class="center mt-4">
+              <canvas id="canvas"></canvas>
             </div>
 
             <!-- В этом div выводятся блоки кода из любых файлов загруженных через fetch-as-text.js -->
-            <!-- <div id="code-block" class="flex flex-col gap-4 text-sm mt-4"></div> -->
+            <div id="code-block" class="flex flex-col gap-4 text-sm mt-4"></div>
           </div>
           <!-- ===== Homework END ===== -->
 
           <!-- В этом div выводятся сообщения консоли через log-to-page.js -->
-          <!-- <div id="console" class="content m-auto flex flex-col gap-4 text-sm mt-4"></div> -->
+          <div id="console" class="content m-auto flex flex-col gap-4 text-sm mt-4"></div>
 
         </div>
       </section>
