@@ -1,0 +1,20 @@
+/* course-html-css-js/homeworks/homework-23/styles/styles.css */
+
+#todos-list {
+  max-width: 256px;
+  width: 100%;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.delete-todo-btn {
+  cursor: pointer;
+}
+
+.delete-todo-btn:hover {
+  color: var(--color-secondary);
+}
