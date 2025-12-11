@@ -1,0 +1,114 @@
+/* course-html-css-js/lessons/59-1-lesson-38-1/scripts/script.js */
+
+import { fetchAsText } from '../../../../scripts/fetch-as-text.js';
+import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
+
+/* ===== START ===== */
+// 59.1 Lesson 38.1
+
+/* Реализовать функционал переключения между постами. В качестве API использовать 
+https://jsonplaceholder.typicode.com/posts/. */
+/* Страница должна содержать 2 кнопки (вперед, назад), которые переключают к следующему и 
+предыдущему посту соответственно. */
+/* При загрузке страницы должен отправляться запрос на получение поста с id=1. Сообщения, 
+адресованные в "Групповой чат конференции", также будут отображаться в групповом чате конференции 
+в рамках коллективного чата */
+// 1. validation for switchers < >
+// 2. localStorage
+// 3. loading
+// 4**. dynamic search {title, body}
+
+/* App Blog */
+const BASE_URL = 'https://jsonplaceholder.typicode.com';
+
+const prevPostBtn = document.querySelector('#prev-post');
+const nextPostBtn = document.querySelector('#next-post');
+const postContent = document.querySelector('#post-content');
+
+let currentPostId = Number(localStorage.getItem('postId')) || 1;
+let totalPosts = 0;
+
+const capitalizeFirstLetter = (str) => (str ? str[0].toUpperCase() + str.slice(1) : '');
+const removeLineBreaks = (text) => text.replace(/\n/g, ' ');
+
+// Получение количества постов
+const countPosts = async () => {
+  const response = await fetch(`${BASE_URL}/posts`);
+  if (!response.ok) throw new Error(`Load error: ${response.status}`);
+
+  const posts = await response.json();
+  return posts.length;
+};
+
+// Загрузка поста
+const loadPost = async (id) => {
+  const response = await fetch(`${BASE_URL}/posts/${id}?_expand=user&_embed=comments`);
+  if (!response.ok) throw new Error(`Load error: ${response.status}`);
+  return response.json();
+};
+
+// HTML комментария
+const commentCard = (comment) => `
+  <div class="comment mb-4 p-4 bg-lite text-sm">
+    <span class="comment-name font-semibold">${capitalizeFirstLetter(comment.name)}</span>
+    <p class="comment-body">${capitalizeFirstLetter(removeLineBreaks(comment.body))}</p>
+    <span class="comment-email text-sm text-lite">${comment.email}</span>
+  </div>
+`;
+
+// Рендер поста
+const renderPost = (post) => {
+  const title = capitalizeFirstLetter(post.title);
+  const body = capitalizeFirstLetter(removeLineBreaks(post.body));
+  const author = post.user;
+
+  postContent.innerHTML = `
+    <div class="post">
+      <h2 class="post-title">${title}</h2>
+      <span class="post-author text-sm text-lite">
+        Author:
+        <a class="text-sm text-lite no-underline"
+           href="./author.html?authorId=${author.id}">
+          ${capitalizeFirstLetter(author.name)}
+        </a>
+      </span>
+      <p class="post-body">${body}</p>
+    </div>
+  `;
+};
+
+// Обновление
+const update = async () => {
+  if (currentPostId < 1) currentPostId = 1;
+  if (currentPostId > totalPosts) currentPostId = totalPosts;
+
+  localStorage.setItem('postId', currentPostId);
+
+  postContent.innerHTML = 'Loading…';
+
+  const data = await loadPost(currentPostId);
+  renderPost(data);
+};
+
+// Навигация
+prevPostBtn.addEventListener('click', () => {
+  if (currentPostId > 1) {
+    currentPostId--;
+    update();
+  }
+});
+
+nextPostBtn.addEventListener('click', () => {
+  if (currentPostId < totalPosts) {
+    currentPostId++;
+    update();
+  }
+});
+
+// Инициализация
+countPosts().then((count) => {
+  totalPosts = count;
+  update();
+});
+
+/* ===== END ===== */
