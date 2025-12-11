@@ -119,3 +119,34 @@ loadPosts().then((data) => {
 });
 
 /* ===== END ===== */
+
+const resourceUrl1 = `./scripts/script.js`;
+const resourceUrl2 = `./styles/styles.css`;
+
+fetchAsText(resourceUrl1, resourceUrl2).then(async (results) => {
+  const codeBlock = document.querySelector('#code-block');
+  if (!codeBlock) return;
+
+  for (let result of results) {
+    let content = result.text; // текст из объекта
+    const url = result.url; // URL для дальнейшего использования в extension
+
+    const pre = document.createElement('pre');
+
+    // Берем только контент между START и END
+    const match = content.match(
+      /(\/\*\s*===== START =====\s*\*\/|<!--\s*===== START =====\s*-->)([\s\S]*?)(\/\*\s*===== END =====\s*\*\/|<!--\s*===== END =====\s*-->)/
+    );
+
+    if (match) content = match[2].trim();
+
+    // Удаляем из комментариев вида /* */ пеереносы строк (можно отключить)
+    content = content.replace(/\/\*[\s\S]*?\*\//g, (block) => block.replace(/\r?\n+/g, ''));
+
+    pre.textContent = content;
+    const extension = url.split('.').pop();
+    pre.classList.add(`language-${extension}`);
+    codeBlock.appendChild(pre);
+  }
+  await highlightPreBlocks(codeBlock);
+});

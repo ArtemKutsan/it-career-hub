@@ -75,9 +75,10 @@ cleanInputBtns.forEach((button) =>
 
 /* ===== END ===== */
 
-const resourceUrl = `./scripts/script.js`;
+const resourceUrl1 = `./scripts/script.js`;
+const resourceUrl2 = `./styles/styles.css`;
 
-fetchAsText(resourceUrl).then(async (results) => {
+fetchAsText(resourceUrl1, resourceUrl2).then(async (results) => {
   const codeBlock = document.querySelector('#code-block');
   if (!codeBlock) return;
 
