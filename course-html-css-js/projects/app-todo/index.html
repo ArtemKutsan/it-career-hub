@@ -63,8 +63,14 @@
 
             <div id="app-todo">
               <div id="app-header">
-                <h2 class="current-weekday"></h2>
-                <span class="current-date"></span>
+                <div>
+                  <h2 class="current-weekday"></h2>
+                  <span class="current-date"></span>
+                </div>
+                <div class="relative flex mr-2">
+                  <span class="actual text-3xl font-bold mr-3 text-accent"></span>
+                  <span class="expired absolute"></span>
+                </div>
               </div>
 
               <form id="app-form" class="flex flex-col gap-4">
@@ -79,7 +85,7 @@
                     </label>
 
                     <label class="filter" for="active">
-                      <input type="radio" id="active" name="filter" checked>
+                      <input type="radio" id="active" name="filter">
                       <!-- <span>Active</span> -->
                       <span class="material-symbols-outlined">
                         overview
@@ -113,10 +119,19 @@
                 </div>
               </form>
 
-
               <div id="bottom-buttons-group">
-                <div class="todos-filter">
-                  <label id="trash" class="filter btn btn-lg shadow" for="deleted">
+                <div class="todos-filter flex gap-4 ">
+                  <label class="filter relative btn btn-lg btn-round
+                  btn-bordered btn-accent shadow" for="actual">
+                    <input form="app-form" type="radio" id="actual" name="filter" checked>
+                    <span class="actual text-xl">
+                    </span>
+                    <span class="expired absolute">
+                    </span>
+                  </label>
+
+                  <label id="trash" class="filter btn btn-lg btn-round
+                  btn-bordered btn-accent shadow" for="deleted">
                     <input form="app-form" type="radio" id="deleted" name="filter">
                     <span class="material-symbols-outlined">
                       delete
