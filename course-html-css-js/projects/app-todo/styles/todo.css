@@ -381,6 +381,10 @@ input[type='time'] {
 }
 
 @media (max-width: 375px) {
+  #filters {
+    padding-top: 1rem;
+  }
+
   .todo {
     gap: 0.5rem;
     padding: 0.5rem;
