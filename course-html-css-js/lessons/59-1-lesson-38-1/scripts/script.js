@@ -19,6 +19,7 @@ https://jsonplaceholder.typicode.com/posts/. */
 // 4**. dynamic search {title, body}
 
 /* App Blog */
+/* App Blog */
 const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 const prevPostBtn = document.querySelector('#prev-post');
@@ -32,12 +33,13 @@ const capitalizeFirstLetter = (str) => (str ? str[0].toUpperCase() + str.slice(1
 const removeLineBreaks = (text) => text.replace(/\n/g, ' ');
 
 // Получение количества постов
-const countPosts = async () => {
+const loadPosts = async () => {
   const response = await fetch(`${BASE_URL}/posts`);
   if (!response.ok) throw new Error(`Load error: ${response.status}`);
 
   const posts = await response.json();
-  return posts.length;
+
+  return posts;
 };
 
 // Загрузка поста
@@ -77,7 +79,13 @@ const renderPost = (post) => {
   `;
 };
 
-// Обновление
+// Обновление состояния кнопок
+const updateButtons = () => {
+  prevPostBtn.style.display = currentPostId <= 1 ? 'none' : 'block';
+  nextPostBtn.style.display = currentPostId >= totalPosts ? 'none' : 'block';
+};
+
+// Обновление поста
 const update = async () => {
   if (currentPostId < 1) currentPostId = 1;
   if (currentPostId > totalPosts) currentPostId = totalPosts;
@@ -88,6 +96,8 @@ const update = async () => {
 
   const data = await loadPost(currentPostId);
   renderPost(data);
+
+  updateButtons();
 };
 
 // Навигация
@@ -105,9 +115,8 @@ nextPostBtn.addEventListener('click', () => {
   }
 });
 
-// Инициализация
-countPosts().then((count) => {
-  totalPosts = count;
+loadPosts().then((posts) => {
+  totalPosts = posts.length;
   update();
 });
 
