@@ -586,7 +586,7 @@ const renderTodos = () => {
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
   // "Найдено n задач"
-  todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordFilter} ${wordTask} ${searchStrText}</span>`;
+  todosListEl.innerHTML = `<span class="text-sm">${wordFind} <span class="font-semibold text-accent">${todosQty} ${wordFilter} ${wordTask}</span> ${searchStrText}</span>`;
 
   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
   // для каждой задачи (слой div .todo и всем содержимым)
