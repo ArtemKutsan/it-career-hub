@@ -1011,3 +1011,11 @@
 .z-9999 {
   z-index: 9999;
 }
+
+.line-clamp-1 {
+  display: -webkit-box;
+  line-clamp: 1;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}

@@ -364,6 +364,9 @@ code {
 .bg-inverse {
   background-color: var(--color-bg-inverse);
 }
+.bg-theme {
+  background-color: var(--color-bg);
+}
 
 @media (max-width: 768px) {
   .base-layout {
