@@ -296,17 +296,11 @@ input[type='time'] {
   gap: 1rem;
 }
 
-/* !!! Доработать !!! */
 .actual {
-  /* min-width: 3rem;
-  min-height: 3rem; */
-  /* border-radius: 9999px;
-  background: var(--color-bg); */
 }
 
 .expired {
   border-radius: 9999px;
-  aspect-ratio: 1 / 1;
   font-size: var(--font-sm);
   color: var(--color-light);
   background: var(--color-secondary);
@@ -321,11 +315,7 @@ input[type='time'] {
 }
 
 #trash {
-  /* min-width: 3rem;
-  min-height: 3rem; */
-  /* border-radius: 9999px; */
   border: 2px solid var(--color-accent);
-  /* background: var(--color-bg); */
 }
 
 #todo-dialog {
@@ -398,6 +388,10 @@ input[type='time'] {
 
   #bottom-buttons-group {
     bottom: 1rem;
+    gap: 0.5rem;
+  }
+
+  #bottom-buttons-group .todos-filter {
     gap: 0.5rem;
   }
 }
