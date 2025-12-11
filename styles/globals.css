@@ -102,6 +102,11 @@ body {
   font-weight: 400;
 }
 
+/* Настройки Google шрифтов (иконок) */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
 /* ===== Базовая сетка страницы ===== */
 .base-layout {
   display: grid;
