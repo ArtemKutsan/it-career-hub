@@ -10,16 +10,12 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 https://jsonplaceholder.typicode.com/posts/. */
 /* Страница должна содержать 2 кнопки (вперед, назад), которые переключают к следующему и 
 предыдущему посту соответственно. */
-/* При загрузке страницы должен отправляться запрос на получение поста с id=1. Сообщения, 
-адресованные в "Групповой чат конференции", также будут отображаться в групповом чате конференции 
-в рамках коллективного чата */
+/* При загрузке страницы должен отправляться запрос на получение поста с id=1. */
 // 1. validation for switchers < >
 // 2. localStorage
 // 3. loading
 // 4**. dynamic search {title, body}
 
-/* App Blog */
-/* App Blog */
 const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 const prevPostBtn = document.querySelector('#prev-post');
@@ -27,36 +23,37 @@ const nextPostBtn = document.querySelector('#next-post');
 const postContent = document.querySelector('#post-content');
 
 let currentPostId = Number(localStorage.getItem('postId')) || 1;
+let posts = [];
 let totalPosts = 0;
 
 const capitalizeFirstLetter = (str) => (str ? str[0].toUpperCase() + str.slice(1) : '');
+
 const removeLineBreaks = (text) => text.replace(/\n/g, ' ');
 
-// Получение количества постов
+// Получение всех постов
 const loadPosts = async () => {
   const response = await fetch(`${BASE_URL}/posts`);
   if (!response.ok) throw new Error(`Load error: ${response.status}`);
 
-  const posts = await response.json();
-
-  return posts;
+  return response.json();
 };
 
 // Загрузка поста
 const loadPost = async (id) => {
   const response = await fetch(`${BASE_URL}/posts/${id}?_expand=user&_embed=comments`);
   if (!response.ok) throw new Error(`Load error: ${response.status}`);
+
   return response.json();
 };
 
 // HTML комментария
-const commentCard = (comment) => `
-  <div class="comment mb-4 p-4 bg-lite text-sm">
-    <span class="comment-name font-semibold">${capitalizeFirstLetter(comment.name)}</span>
-    <p class="comment-body">${capitalizeFirstLetter(removeLineBreaks(comment.body))}</p>
-    <span class="comment-email text-sm text-lite">${comment.email}</span>
-  </div>
-`;
+// const commentCard = (comment) => `
+//   <div class="comment mb-4 p-4 bg-lite text-sm">
+//     <span class="comment-name font-semibold">${capitalizeFirstLetter(comment.name)}</span>
+//     <p class="comment-body">${capitalizeFirstLetter(removeLineBreaks(comment.body))}</p>
+//     <span class="comment-email text-sm text-lite">${comment.email}</span>
+//   </div>
+// `;
 
 // Рендер поста
 const renderPost = (post) => {
@@ -66,7 +63,7 @@ const renderPost = (post) => {
 
   postContent.innerHTML = `
     <div class="post">
-      <h2 class="post-title">${title}</h2>
+      <h2 class="post-title text-primary">${title}</h2>
       <span class="post-author text-sm text-lite">
         Author:
         <a class="text-sm text-lite no-underline"
@@ -115,7 +112,8 @@ nextPostBtn.addEventListener('click', () => {
   }
 });
 
-loadPosts().then((posts) => {
+loadPosts().then((data) => {
+  posts = data;
   totalPosts = posts.length;
   update();
 });
