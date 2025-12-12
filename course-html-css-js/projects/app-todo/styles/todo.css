@@ -380,7 +380,7 @@ input[type='time'] {
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 429px) {
   #filters {
     padding-top: 1rem;
   }
