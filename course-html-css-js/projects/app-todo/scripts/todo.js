@@ -571,7 +571,7 @@ const renderTodos = () => {
       case 'done':
         return pluralize(filteredTodos.length, 'завершенная', 'завершенные', 'завершенных');
       case 'actual':
-        countActualTodos(filteredTodos);
+        // countActualTodos(filteredTodos);
         return pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных');
       case 'deleted':
         return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
