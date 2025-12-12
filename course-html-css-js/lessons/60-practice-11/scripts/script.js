@@ -26,12 +26,12 @@ console.log(sum);
 "generateAccountNumber". Метод должен генерировать и возвращать уникальный номер счета. Уникальный 
 номер должен состоять из префикса "ACC" и случайного числа, а также должен быть уникальным для 
 каждого экземпляра класса. */
-const accounts = [];
+const allAccounts = [];
 
 class Account {
   static generateAccountNumber() {
-    const accountNumber = 'ACC' + Math.random().toString().slice(2);
-    if (accounts.includes(accountNumber)) Account.generateAccountNumber();
+    const accountNumber = 'ACC' + Math.random().toString().slice(2, 18).padStart(16, 0);
+    if (allAccounts.includes(accountNumber)) Account.generateAccountNumber();
 
     return accountNumber;
   }
