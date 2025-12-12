@@ -555,12 +555,9 @@ const createTodoElement = (todo) => {
 const renderTodos = () => {
   const { filteredTodos, filter, searchStr } = applyFilters();
 
-  /* Начало. Перенести в функцию и вызывать в нужных местах или переделать чтобы 
-  все фильтры возвращали объект с подсчитанным кол-вом разных задач? */
-  if (filter === 'actual') {
-    countActualTodos(filteredTodos);
-  }
-  /* Конец */
+  // if (filter === 'actual') {
+  //   countActualTodos(filteredTodos);
+  // }
 
   const todosQty = filteredTodos.length;
   const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
@@ -574,6 +571,7 @@ const renderTodos = () => {
       case 'done':
         return pluralize(filteredTodos.length, 'завершенная', 'завершенные', 'завершенных');
       case 'actual':
+        countActualTodos(filteredTodos);
         return pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных');
       case 'deleted':
         return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
@@ -582,7 +580,6 @@ const renderTodos = () => {
     }
   })();
   const searchStrText = searchStr ? `со строкой '${searchStr}'` : '';
-  // const extra = [wordFilter, searchStrText].filter(Boolean).join(' ');
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
   // "Найдено n задач"
@@ -592,21 +589,6 @@ const renderTodos = () => {
   // для каждой задачи (слой div .todo и всем содержимым)
   filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
 };
-
-// const renderTodos = () => {
-//   const filteredTodos = applyFilters();
-//   const todosQty = filteredTodos.length;
-//   const wordFind = pluralize(todosQty, 'Найдена', 'Найдено', 'Найдено');
-//   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
-
-//   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
-//   // "Найдено n задач"
-//   todosListEl.innerHTML = `<span class="text-sm">${wordFind} ${todosQty} ${wordTask}</span>`;
-
-//   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
-//   // для каждой задачи (слой div .todo и всем содержимым)
-//   filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
-// };
 
 /* ===== События ===== */
 
