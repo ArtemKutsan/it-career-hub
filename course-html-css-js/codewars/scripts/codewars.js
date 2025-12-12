@@ -152,3 +152,61 @@ console.log(rot13('Test'));
 console.log(rot13('Test123!'));
 console.log(rot13('Gur Dhvpx Jbeyq!'));
 console.log(rot13('Gur Dhvpx Jbeyq123!'));
+
+// Simple Pig Latin
+// Description:
+/* Move the first letter of each word to the end of it, then add "ay" to the end of the word. 
+Leave punctuation marks untouched. */
+// Examples:
+// pigIt('Pig latin is cool'); // igPay atinlay siay oolcay
+// pigIt('Hello world !');     // elloHay orldway !
+
+const pigIt = (str) =>
+  str
+    .split(/\s+/)
+    .map((token) => (/^[A-Za-z]+$/.test(token) ? token.slice(1) + token[0] + 'ay' : token))
+    .join(' ');
+
+console.log(pigIt('Pig latin is cool'));
+console.log(pigIt('Hello world !'));
+
+// Give me a Diamond
+// Description:
+/* Jamie is a programmer, and James' girlfriend. She likes diamonds, and wants a diamond string 
+from James. Since James doesn't know how to make this happen, he needs your help. */
+// Task
+/* You need to return a string that looks like a diamond shape when printed on the screen, using 
+asterisk (*) characters. Trailing spaces should be removed, and every line must be terminated 
+with a newline character (\n). */
+/* Return null/nil/None/... if the input is an even number or negative, as it is not possible to 
+print a diamond of even or negative size. */
+// Examples
+// A size 3 diamond:
+//  *
+// ***
+//  *
+// ...which would appear as a string of " *\n***\n *\n"
+// A size 5 diamond:
+//   *
+//  ***
+// *****
+//  ***
+//   *
+// ...that is:
+// "  *\n ***\n*****\n ***\n  *\n"
+const diamond = (n) => {
+  if (n <= 0 || n % 2 === 0) return null;
+
+  let result = '';
+  const middle = Math.floor(n / 2);
+
+  for (let i = 0; i < n; i++) {
+    const stars = i <= middle ? 2 * i + 1 : 2 * (n - i - 1) + 1;
+    const spaces = (n - stars) / 2;
+    result += ' '.repeat(spaces) + '*'.repeat(stars) + '\n';
+  }
+
+  return result;
+};
+
+console.log(diamond(5));
