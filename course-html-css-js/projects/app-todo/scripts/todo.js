@@ -183,7 +183,7 @@ const addTodo = (title, date) => {
   });
 
   setData(todosKey, todos);
-  schedulePlannedUpdate();
+  schedulePlannedUpdate(); // вынести из функции!!!
 };
 
 // Изменение задачи
@@ -195,7 +195,7 @@ const editTodo = (id, title, date) => {
   todo.date = date.getTime();
 
   setData(todosKey, todos);
-  schedulePlannedUpdate();
+  schedulePlannedUpdate(); // вынести из функции!!!
 };
 
 // Пермещение в корзину
@@ -208,13 +208,12 @@ const toggleTodo = (id) => {
 
   todo.completed = !todo.completed;
 
-  countActualTodos(todos); // при смене состояния todo пересчитываем активные
   setData(todosKey, todos);
-  schedulePlannedUpdate();
+  schedulePlannedUpdate(); // вынести из функции!!!
 };
 
 // Подсчет кол-ва актуальных (сегодняшник) todo вместе с просроченными
-const countActualTodos = (todos) => {
+const countActualTodos = () => {
   const today = new Date();
   // Обнуляем время, чтобы сравнивать только дату
   today.setHours(23, 59, 59, 999);
@@ -233,6 +232,7 @@ const countActualTodos = (todos) => {
     { actualQty: 0, expiredQty: 0 }
   );
 
+  // Сделать возврат значений и Вынести этот рендер из функции???
   document.querySelectorAll('.actual').forEach((el) => (el.textContent = actualQty));
   document.querySelectorAll('.expired').forEach((el) => (el.textContent = expiredQty));
 };
@@ -250,7 +250,7 @@ const deleteTodo = (id) => {
 
   todos = remaining;
   setData(todosKey, todos);
-  schedulePlannedUpdate();
+  schedulePlannedUpdate(); // вынести из функции!!!
 
   // Ставим у удаленного элемента deleted = true
   removed.deleted = true;
@@ -283,7 +283,7 @@ const restoreTodo = (id) => {
 
   todos.push(resoredTodo);
   setData(todosKey, todos);
-  schedulePlannedUpdate();
+  schedulePlannedUpdate(); // вынести из функции!!!
 };
 
 // Применяем фильтры
@@ -391,11 +391,11 @@ function getNextChangeTimestamp(todo, now = Date.now()) {
 }
 
 // Поиск ближайшего времени изменения (временной метки) среди всех задач
-function getClosestChange(todosList) {
+function getClosestChange(list) {
   const now = Date.now();
   let closest = null;
 
-  for (const todo of todosList) {
+  for (const todo of list) {
     const timestamp = getNextChangeTimestamp(todo, now);
     if (timestamp == null) continue;
     if (closest == null || timestamp < closest) closest = timestamp;
@@ -420,7 +420,7 @@ function schedulePlannedUpdate() {
   if (!closest) return;
 
   let delay = closest - Date.now();
-  const LIMIT = 2147483647;
+  const LIMIT = 2_147_483_647;
   if (delay > LIMIT) delay = LIMIT;
 
   if (delay <= 0) return schedulePlannedUpdate();
@@ -469,8 +469,6 @@ const createTodoElement = (todo) => {
   divEl.dataset.id = todo.id;
 
   const labelEl = document.createElement('label');
-  // labelEl.className = "todo";
-  // labelEl.dataset.id = todo.id;
 
   const checkboxInputEl = document.createElement('input');
   checkboxInputEl.type = 'checkbox';
@@ -514,7 +512,7 @@ const createTodoElement = (todo) => {
   spanTodoTitleEl.textContent = todo.title;
 
   if (todo.deleted) {
-    spanCheckboxEl.classList.add('inactive'); // Делаем chrckbox неактивным
+    spanCheckboxEl.classList.add('inactive'); // делаем chrckbox смены состояния неактивным для удаленной задачи
 
     const buttonRestoreBtnEl = document.createElement('button');
     buttonRestoreBtnEl.type = 'button';
@@ -544,21 +542,12 @@ const createTodoElement = (todo) => {
     divEl.append(labelEl, divTodoContentEl, buttonEditBtnEl, buttonDeleteBtnEl);
   }
 
-  // labelEl.append(checkboxInputEl, spanCheckboxEl);
-  // divTodoContentEl.append(spanTodoDatetimeEl, spanTodoTitleEl);
-  // divEl.append(labelEl, divTodoContentEl, buttonEditBtnEl, buttonDeleteBtnEl);
-
   return divEl;
 };
 
 // Рендер (добавление в слой div #todos-list) элемент созданный для каждой задачи
 const renderTodos = () => {
   const { filteredTodos, filter, searchStr } = applyFilters();
-
-  // if (filter === 'actual') {
-  //   countActualTodos(filteredTodos);
-  // }
-
   const todosQty = filteredTodos.length;
   const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
@@ -571,7 +560,6 @@ const renderTodos = () => {
       case 'done':
         return pluralize(filteredTodos.length, 'завершенная', 'завершенные', 'завершенных');
       case 'actual':
-        // countActualTodos(filteredTodos);
         return pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных');
       case 'deleted':
         return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
@@ -582,7 +570,7 @@ const renderTodos = () => {
   const searchStrText = searchStr ? `со строкой '${searchStr}'` : '';
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
-  // "Найдено n задач"
+  // "Найдено n [тип] задач"
   todosListEl.innerHTML = `<span class="text-sm">${wordFind} <span class="font-semibold text-accent">${todosQty} ${wordFilter} ${wordTask}</span> ${searchStrText}</span>`;
 
   // Добавляем после строки выше в цикле элемент html который создаем createTodoElement
@@ -593,7 +581,6 @@ const renderTodos = () => {
 /* ===== События ===== */
 
 // Обработчик события выбора статуса выполнения
-// todosFilterEl.addEventListener("change", renderTodos);
 todosFilterEls.forEach((filter) => filter.addEventListener('change', renderTodos));
 
 // Обработчик события ввода в строку поиска
@@ -626,6 +613,7 @@ addTodoBtn.addEventListener('click', () => {
   todoDialogEl.classList.toggle('invisible');
 });
 
+// Обработчик события нажатия кнопки действия с задачей (кнопка "Добавить"/"Изменить")
 todoDialogActionBtn.addEventListener('click', (event) => {
   event.preventDefault();
 
@@ -648,9 +636,11 @@ todoDialogActionBtn.addEventListener('click', (event) => {
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
 
+  countActualTodos(); // при добавлении/изменении todo пересчитываем активные
   renderTodos();
 });
 
+// Обработчик события нажатия кнопки действия с задачей (кнопка "Отменить")
 cancelBtn.addEventListener('click', () => {
   currentEditingId = null;
 
@@ -660,18 +650,22 @@ cancelBtn.addEventListener('click', () => {
   // todoDialogActionBtn.value = "Добавить"; // Протестировать!!!
 });
 
+// Обработка кликов по разным элементам в списке todo (один обработчик на весь список)
 todosListEl.addEventListener('click', (event) => {
   const todoEl = event.target.closest('.todo');
   if (!todoEl) return;
 
   const id = todoEl.dataset.id;
 
+  // Клик по checkbox для переключения Active/Done
   if (event.target.closest('input[type="checkbox"]')) {
     toggleTodo(id);
+    countActualTodos(); // при смене состояния todo пересчитываем активные
     renderTodos();
     return;
   }
 
+  // Клик по кнопке редактирования todo
   if (event.target.closest('.edit-btn')) {
     const todo = findTodo(id);
     if (!todo) return;
@@ -697,18 +691,20 @@ todosListEl.addEventListener('click', (event) => {
     return;
   }
 
+  // Клик по кнопке удаления todo
   if (event.target.closest('.delete-btn')) {
     deleteTodo(id);
     renderTodos();
   }
 
+  // Клик по кнопке восстановления удаленного todo
   if (event.target.closest('.restore-btn')) {
     restoreTodo(id);
     renderTodos();
   }
 });
 
-// Первоначальный рендер списка задач
-countActualTodos(todos);
+// Первоначальная инициализация (переделать на чистые функции???)
+countActualTodos();
 renderTodos();
 schedulePlannedUpdate();
