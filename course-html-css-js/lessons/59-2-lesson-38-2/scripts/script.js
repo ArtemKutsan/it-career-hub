@@ -11,7 +11,7 @@ const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 const searchContentUl = document.querySelector('#search-content');
 const postsSearchInput = document.querySelector('#posts-search');
-const cleanInputBtns = document.querySelectorAll('.clean-input-btn');
+const cleanInputBtnEls = document.querySelectorAll('.clean-input-btn');
 
 let posts = [];
 let totalPosts = 0;
@@ -65,7 +65,7 @@ postsSearchInput.addEventListener('input', (event) => {
 });
 
 // Обработчики событий кнопок очистки введенной строки на всех input (text)
-cleanInputBtns.forEach((button) =>
+cleanInputBtnEls.forEach((button) =>
   button.addEventListener('click', (event) => {
     event.currentTarget.parentElement.querySelector('input').value = '';
     renderSearchResults([]);
