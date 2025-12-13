@@ -80,11 +80,11 @@ let currentEditingId = null;
 const todosListEl = document.querySelector('#todos-list');
 const todosFilterEls = document.querySelectorAll('.todos-filter');
 const todosSearchEl = document.querySelector('#todos-search');
-const cleanInputBtns = document.querySelectorAll('.clean-input-btn');
-const addTodoBtn = document.querySelector('#add-todo-btn');
+const cleanInputBtnEls = document.querySelectorAll('.clean-input-btn');
+const addTodoBtnEl = document.querySelector('#add-todo-btn');
 const todoDialogEl = document.querySelector('#todo-dialog');
-const todoDialogActionBtn = document.querySelector('#todo-dialog-action-btn');
-const cancelBtn = document.querySelector('#cancel-btn');
+const todoDialogActionBtnEl = document.querySelector('#todo-dialog-action-btn');
+const cancelBtnEl = document.querySelector('#cancel-btn');
 
 // Определяем текущий день недели и дату
 const weekday = new Date().toLocaleString('ru-RU', { weekday: 'long' });
@@ -131,18 +131,15 @@ const filterByStatus = (list, status) => {
   // Обнуляем время, чтобы сравнивать только дату
   today.setHours(23, 59, 59, 999);
 
-  switch (status) {
-    case 'active':
-      return list.filter((todo) => !todo.completed); // активные задачи
-    case 'done':
-      return list.filter((todo) => todo.completed); // завершеннык задачи
-    case 'actual':
-      return list.filter((todo) => !todo.completed && new Date(todo.date) <= today); // активные задачи до конца сегодняшнего дня
-    case 'deleted':
-      return trash; // массив удаленных задач
-    default:
-      return list; // все задачи без удаленных
-  }
+  return status === 'active'
+    ? list.filter((todo) => !todo.completed) // активные задачи
+    : status === 'done'
+    ? list.filter((todo) => todo.completed) // завершеннык задачи
+    : status === 'actual'
+    ? list.filter((todo) => !todo.completed && new Date(todo.date) <= today) // актуальные задачи (на сегодня)
+    : status === 'deleted'
+    ? trash // массив удаленных задач
+    : list; // все задачи без удаленных
 };
 
 // Фильтр по строке
@@ -464,9 +461,9 @@ window.addEventListener('focus', () => {
 
 // Создание HTML элемента задачи
 const createTodoElement = (todo) => {
-  const divEl = document.createElement('div');
-  divEl.className = 'todo';
-  divEl.dataset.id = todo.id;
+  const divTodoEl = document.createElement('div');
+  divTodoEl.className = 'todo';
+  divTodoEl.dataset.id = todo.id;
 
   const labelEl = document.createElement('label');
 
@@ -522,7 +519,7 @@ const createTodoElement = (todo) => {
     divPlannedEl.append(spanTodoDatetimeEl);
     labelEl.append(checkboxInputEl, spanCheckboxEl);
     divTodoContentEl.append(divPlannedEl, spanTodoTitleEl);
-    divEl.append(labelEl, divTodoContentEl, buttonRestoreBtnEl);
+    divTodoEl.append(labelEl, divTodoContentEl, buttonRestoreBtnEl);
   } else {
     const buttonEditBtnEl = document.createElement('button');
     buttonEditBtnEl.type = 'button';
@@ -539,10 +536,10 @@ const createTodoElement = (todo) => {
 
     labelEl.append(checkboxInputEl, spanCheckboxEl);
     divTodoContentEl.append(divPlannedEl, spanTodoTitleEl);
-    divEl.append(labelEl, divTodoContentEl, buttonEditBtnEl, buttonDeleteBtnEl);
+    divTodoEl.append(labelEl, divTodoContentEl, buttonEditBtnEl, buttonDeleteBtnEl);
   }
 
-  return divEl;
+  return divTodoEl;
 };
 
 // Рендер (добавление в слой div #todos-list) элемент созданный для каждой задачи
@@ -551,22 +548,19 @@ const renderTodos = () => {
   const todosQty = filteredTodos.length;
   const wordFind = pluralize(todosQty, 'Найдена', 'Найдены', 'Найдено');
   const wordTask = pluralize(todosQty, 'задача', 'задачи', 'задач');
-  const wordFilter = (() => {
-    switch (filter) {
-      case 'all':
-        return ''; // можно без этой проверки (оставлена для ясности)
-      case 'active':
-        return pluralize(filteredTodos.length, 'активная', 'активные', 'активных');
-      case 'done':
-        return pluralize(filteredTodos.length, 'завершенная', 'завершенные', 'завершенных');
-      case 'actual':
-        return pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных');
-      case 'deleted':
-        return pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных');
-      default:
-        return '';
-    }
-  })();
+  const wordFilter =
+    filter === 'all'
+      ? '' // можно без 'all', оставлено для ясности
+      : filter === 'active'
+      ? pluralize(filteredTodos.length, 'активная', 'активные', 'активных')
+      : filter === 'done'
+      ? pluralize(filteredTodos.length, 'завершенная', 'завершенные', 'завершенных')
+      : filter === 'actual'
+      ? pluralize(filteredTodos.length, 'актуальная', 'актуальные', 'актуальных')
+      : filter === 'deleted'
+      ? pluralize(filteredTodos.length, 'удаленная', 'удаленные', 'удаленных')
+      : '';
+
   const searchStrText = searchStr ? `со строкой '${searchStr}'` : '';
 
   // Очищаем все в div #todos-list (все отрендеренные ранее задачи) и пишем туда html со строкой:
@@ -587,7 +581,7 @@ todosFilterEls.forEach((filter) => filter.addEventListener('change', renderTodos
 todosSearchEl.addEventListener('input', renderTodos);
 
 // Обработчики событий кнопок очистки введенной строки на всех input (text)
-cleanInputBtns.forEach((button) =>
+cleanInputBtnEls.forEach((button) =>
   button.addEventListener('click', (event) => {
     event.currentTarget.parentElement.querySelector('input').value = '';
     renderTodos();
@@ -595,7 +589,7 @@ cleanInputBtns.forEach((button) =>
 );
 
 // Обработчик события нажатия кнопки открытия диалога добавления задачи
-addTodoBtn.addEventListener('click', () => {
+addTodoBtnEl.addEventListener('click', () => {
   currentEditingId = null;
 
   const now = new Date();
@@ -607,14 +601,14 @@ addTodoBtn.addEventListener('click', () => {
     minute: '2-digit',
   });
 
-  todoDialogActionBtn.value = 'Добавить';
+  todoDialogActionBtnEl.value = 'Добавить';
 
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
 });
 
 // Обработчик события нажатия кнопки действия с задачей (кнопка "Добавить"/"Изменить")
-todoDialogActionBtn.addEventListener('click', (event) => {
+todoDialogActionBtnEl.addEventListener('click', (event) => {
   event.preventDefault();
 
   const title = document.querySelector('#new-todo-title').value.trim();
@@ -628,7 +622,7 @@ todoDialogActionBtn.addEventListener('click', (event) => {
   if (currentEditingId) {
     editTodo(currentEditingId, title, datetime);
     currentEditingId = null;
-    // todoDialogActionBtn.value = "Добавить"; // Протестировать!!!
+    // todoDialogActionBtnEl.value = "Добавить"; // Протестировать!!!
   } else {
     addTodo(title, datetime);
   }
@@ -641,13 +635,13 @@ todoDialogActionBtn.addEventListener('click', (event) => {
 });
 
 // Обработчик события нажатия кнопки действия с задачей (кнопка "Отменить")
-cancelBtn.addEventListener('click', () => {
+cancelBtnEl.addEventListener('click', () => {
   currentEditingId = null;
 
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
 
-  // todoDialogActionBtn.value = "Добавить"; // Протестировать!!!
+  // todoDialogActionBtnEl.value = "Добавить"; // Протестировать!!!
 });
 
 // Обработка кликов по разным элементам в списке todo (один обработчик на весь список)
@@ -673,7 +667,7 @@ todosListEl.addEventListener('click', (event) => {
     currentEditingId = id;
 
     document.querySelector('#new-todo-title').value = todo.title;
-    todoDialogActionBtn.value = 'Изменить';
+    todoDialogActionBtnEl.value = 'Изменить';
 
     const date = new Date(todo.date);
 
