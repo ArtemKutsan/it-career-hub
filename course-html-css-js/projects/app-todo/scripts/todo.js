@@ -73,6 +73,16 @@ mockTrashData = [
 let todos = getData(todosKey) || mockTodosData;
 let trash = getData(trashKey) || mockTrashData;
 
+// План (порядок) сортировки (отображения) задач
+const plannedOrder = {
+  expired: 0, // просроченные (актуальные)
+  current: 1, // текущие (актуальные сейчас)
+  soon: 2, // скоро (актуальные в ближайшее время)
+  today: 3, // сегодня (актуальные на сегодня)
+  tomorrow: 4, // завтра
+  later: 5, // позже (позже чем завтра)
+};
+
 // id редактируемой задачи
 let currentEditingId = null;
 
@@ -103,10 +113,12 @@ function getData(key) {
 }
 
 // Сохранение данных в localStorage
-const setData = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+function setData(key, data) {
+  return localStorage.setItem(key, JSON.stringify(data));
+}
 
 // Выбирает слово с правильным окончанием в зависимости от числа
-const pluralize = (n, one, few, many) => {
+function pluralize(n, one, few, many) {
   const abs = Math.abs(n);
   const lastTwo = abs % 100;
   const last = abs % 10;
@@ -115,21 +127,23 @@ const pluralize = (n, one, few, many) => {
   if (last === 1) return one;
   if (last >= 2 && last <= 4) return few;
   return many;
-};
+}
 
 // Заглавная первая буква
 function capitalizeFirstLetter(str) {
   return str ? str[0].toUpperCase() + str.slice(1) : str;
 }
 
+/* ========================================= */
+/* ===== Функции для работы с задачами ===== */
+/* ========================================= */
 // Поиск задачи по id
 const findTodo = (id) => todos.find((todo) => todo.id === id);
 
 // Фильтр по статусу выполнения
 const filterByStatus = (list, status) => {
   const today = new Date();
-  // Обнуляем время, чтобы сравнивать только дату
-  today.setHours(23, 59, 59, 999);
+  today.setHours(23, 59, 59, 999); // обнуляем время, чтобы сравнивать только дату
 
   return status === 'active'
     ? list.filter((todo) => !todo.completed) // активные задачи
@@ -142,26 +156,18 @@ const filterByStatus = (list, status) => {
     : list; // все задачи без удаленных
 };
 
-// Фильтр по строке
+// Фильтр (поиск) по строке
 const filterByString = (list, str) =>
   str ? list.filter((todo) => todo.title.toLowerCase().includes(str)) : list;
 
-// Сортировка: сначала по выполнению, затем по дате
-const plannedOrder = {
-  expired: 0,
-  current: 1,
-  soon: 2,
-  today: 3,
-  tomorrow: 4,
-  later: 5,
-};
-
+// Сортировка: сначала по выполнению (невыполненные по актуальности), затем по дате
 const sortTodos = (list) =>
+  // Делаем копию с помощью slice чтобы не изменять исходный массив todos
   list.slice().sort((a, b) => {
     // 1. Сначала по выполнению (false < true)
     if (a.completed !== b.completed) return a.completed - b.completed;
 
-    // 2. Активные: сортировка по planned
+    // 2 Актуальные: сортировка по planned
     if (!a.completed && a.planned !== b.planned)
       return plannedOrder[a.planned] - plannedOrder[b.planned];
 
@@ -179,8 +185,17 @@ const addTodo = (title, date) => {
     createdAt: Date.now(),
   });
 
-  setData(todosKey, todos);
-  schedulePlannedUpdate(); // вынести из функции!!!
+  setData(todosKey, todos); // вынести из функции???
+};
+
+// Переключение состояния выполнено/не выполнено
+const toggleTodo = (id) => {
+  const todo = findTodo(id);
+  if (!todo) return;
+
+  todo.completed = !todo.completed;
+
+  setData(todosKey, todos); // вынести из функции???
 };
 
 // Изменение задачи
@@ -191,29 +206,59 @@ const editTodo = (id, title, date) => {
   todo.title = title;
   todo.date = date.getTime();
 
-  setData(todosKey, todos);
-  schedulePlannedUpdate(); // вынести из функции!!!
+  setData(todosKey, todos); // вынести из функции???
 };
 
-// Пермещение в корзину
-// const moveToTrash = (todo) => {};
+// Удаление задачи
+const deleteTodo = (id) => {
+  // todos = todos.filter((todo) => todo.id !== id);
+  const { remaining, removed } = todos.reduce(
+    (acc, todo) =>
+      todo.id === id
+        ? { remaining: acc.remaining, removed: todo }
+        : (acc.remaining.push(todo), acc),
+    { remaining: [], removed: null }
+  );
 
-// Переключение состояния выполнено/не выполнено
-const toggleTodo = (id) => {
-  const todo = findTodo(id);
-  if (!todo) return;
+  todos = remaining; // персохраняем массив todos (без удаленного)
+  setData(todosKey, todos); // вынести из функции???
 
-  todo.completed = !todo.completed;
+  removed.deleted = true; // ставим у удаленного элемента deleted = true
+  trash.unshift(removed); // вставляем в начало массива trash удаленную todo
+  setData(trashKey, trash); // вынести из функции???
+};
 
-  setData(todosKey, todos);
-  schedulePlannedUpdate(); // вынести из функции!!!
+// Восстановление удаленной задачи из корзины
+const restoreTodo = (id) => {
+  const { remaining, restored } = trash.reduce(
+    (acc, todo) =>
+      todo.id === id
+        ? { remaining: acc.remaining, restored: todo }
+        : (acc.remaining.push(todo), acc),
+    { remaining: [], restored: null }
+  );
+
+  trash = remaining; // персохраняем массив trash (без восстановленного)
+  setData(trashKey, trash); // вынести из функции???
+
+  // Формируем объект todo из данных восстановленной из корзины задачи
+  const resoredTodo = {
+    id: restored.id,
+    title: restored.title,
+    completed: restored.completed,
+    date: restored.date,
+    createdAt: restored.createdAt,
+  };
+
+  todos.push(resoredTodo); // вставляем в массив todos восстановленную задачу
+  setData(todosKey, todos); // вынести из функции???
 };
 
 // Подсчет кол-ва актуальных (сегодняшник) todo вместе с просроченными
 const countActualTodos = () => {
   const today = new Date();
-  // Обнуляем время, чтобы сравнивать только дату
-  today.setHours(23, 59, 59, 999);
+  today.setHours(23, 59, 59, 999); // обнуляем время, чтобы сравнивать только дату
+
   const { actualQty, expiredQty } = todos.reduce(
     (acc, curr) => {
       const todoDate = new Date(curr.date);
@@ -234,56 +279,7 @@ const countActualTodos = () => {
   document.querySelectorAll('.expired').forEach((el) => (el.textContent = expiredQty));
 };
 
-// Удаление задачи
-const deleteTodo = (id) => {
-  // todos = todos.filter((todo) => todo.id !== id);
-  const { remaining, removed } = todos.reduce(
-    (acc, todo) =>
-      todo.id === id
-        ? { remaining: acc.remaining, removed: todo }
-        : (acc.remaining.push(todo), acc),
-    { remaining: [], removed: null }
-  );
-
-  todos = remaining;
-  setData(todosKey, todos);
-  schedulePlannedUpdate(); // вынести из функции!!!
-
-  // Ставим у удаленного элемента deleted = true
-  removed.deleted = true;
-  // Вставляем удаленный элемент в начало массива корзины чтобы в истории удаления сначала были новые
-  trash.unshift(removed);
-
-  setData(trashKey, trash);
-};
-
-// Восстановление удаленной задачи из корзины
-const restoreTodo = (id) => {
-  const { remaining, restored } = trash.reduce(
-    (acc, todo) =>
-      todo.id === id
-        ? { remaining: acc.remaining, restored: todo }
-        : (acc.remaining.push(todo), acc),
-    { remaining: [], restored: null }
-  );
-
-  trash = remaining;
-  setData(trashKey, trash);
-
-  const resoredTodo = {
-    id: restored.id,
-    title: restored.title,
-    completed: restored.completed,
-    date: restored.date,
-    createdAt: restored.createdAt,
-  };
-
-  todos.push(resoredTodo);
-  setData(todosKey, todos);
-  schedulePlannedUpdate(); // вынести из функции!!!
-};
-
-// Применяем фильтры
+// Общая фильтрация задач (считывание и применение всех выбранных фильтров)
 const applyFilters = () => {
   const filter = document.querySelector('input[name="filter"]:checked')?.id || 'actual';
   const searchStr = todosSearchEl.value.trim().toLowerCase();
@@ -295,43 +291,45 @@ const applyFilters = () => {
 
   return { filteredTodos, filter, searchStr };
 };
+/* ============================================= */
+/* ===== Функции для работы с задачами END ===== */
+/* ============================================= */
 
-/* ===== Планирование статусов задач ===== */
-
+/* ==================================================== */
+/* ===== Планирование и обновление статусов задач ===== */
+/* ==================================================== */
 // Вычисление текущего статуса задачи
 function computePlannedStatus(todo, now = Date.now()) {
   const due = todo.date;
 
-  if (due <= now) return 'expired';
+  if (due <= now) return 'expired'; // сразу возвращаем статус просрочена если дата в todo ментше текущей
 
-  const diff = due - now;
+  const diff = due - now; // разница по времени между сейчас и датой запланированного выполнения todo
 
-  // Интервалы
+  // Интервалы для задания актуальности задачам
   const CURRENT = 3600_000;
-  const SOON = 7200_000;
+  const SOON = 2 * 3600_000;
 
   const today = new Date(now);
   const dueDate = new Date(due);
+  const tomorrowDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 
-  const isSameDay =
+  // Определяем является ли задача сегодняшней
+  const isTodays =
     dueDate.getFullYear() === today.getFullYear() &&
     dueDate.getMonth() === today.getMonth() &&
     dueDate.getDate() === today.getDate();
 
-  const isTomorrow = (() => {
-    const t = new Date(today);
-    t.setDate(t.getDate() + 1);
-    return (
-      dueDate.getFullYear() === t.getFullYear() &&
-      dueDate.getMonth() === t.getMonth() &&
-      dueDate.getDate() === t.getDate()
-    );
-  })();
+  // Определяем является ли задача завтрашней
+  const isTomorrows =
+    dueDate.getFullYear() === tomorrowDate.getFullYear() &&
+    dueDate.getMonth() === tomorrowDate.getMonth() &&
+    dueDate.getDate() === tomorrowDate.getDate();
 
   if (diff < CURRENT) return 'current';
   if (diff < SOON) return 'soon';
-  if (isSameDay) return 'today';
-  if (isTomorrow) return 'tomorrow';
+  if (isTodays) return 'today';
+  if (isTomorrows) return 'tomorrow';
   return 'later';
 }
 
@@ -352,7 +350,7 @@ function getNextChangeTimestamp(todo, now = Date.now()) {
   if (due <= now) return null;
 
   const CURRENT = 3600_000;
-  const SOON = 7200_000;
+  const SOON = 2 * 3600_000;
 
   const dueDate = new Date(due);
   const today = new Date(now);
@@ -369,7 +367,7 @@ function getNextChangeTimestamp(todo, now = Date.now()) {
 
   const timestamps = [];
 
-  // Порог 3h (today -> soon)
+  // Порог (today -> soon)
   const soonTS = due - SOON;
   if (soonTS > now) timestamps.push(soonTS);
 
@@ -417,7 +415,7 @@ function schedulePlannedUpdate() {
   if (!closest) return;
 
   let delay = closest - Date.now();
-  const LIMIT = 2_147_483_647;
+  const LIMIT = 2147_483_647;
   if (delay > LIMIT) delay = LIMIT;
 
   if (delay <= 0) return schedulePlannedUpdate();
@@ -427,8 +425,13 @@ function schedulePlannedUpdate() {
     schedulePlannedUpdate();
   }, delay);
 }
+/* ======================================================== */
+/* ===== Планирование и обновление статусов задач END ===== */
+/* ======================================================== */
 
+/* ==================================================== */
 /* ===== Резервное обновление для фоновых вкладок ===== */
+/* ==================================================== */
 let hiddenFallbackInterval = null;
 
 function startHiddenFallback() {
@@ -437,7 +440,7 @@ function startHiddenFallback() {
     updatePlannedStatuses();
     renderTodos();
     schedulePlannedUpdate();
-  }, 60000); // каждые 60 секунд
+  }, 60_000); // каждые 60 секунд
 }
 
 function stopHiddenFallback() {
@@ -458,7 +461,13 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('focus', () => {
   schedulePlannedUpdate();
 });
+/* ======================================================== */
+/* ===== Резервное обновление для фоновых вкладок END ===== */
+/* ======================================================== */
 
+// =========================================== */
+// ===== Создание и рендер элементов DOM ===== */
+// =========================================== */
 // Создание HTML элемента задачи
 const createTodoElement = (todo) => {
   const divTodoEl = document.createElement('div');
@@ -571,9 +580,13 @@ const renderTodos = () => {
   // для каждой задачи (слой div .todo и всем содержимым)
   filteredTodos.forEach((todo) => todosListEl.appendChild(createTodoElement(todo)));
 };
+// =============================================== */
+// ===== Создание и рендер элементов DOM END ===== */
+// =============================================== */
 
-/* ===== События ===== */
-
+/* =================================== */
+/* ===== События элементов задач ===== */
+/* =================================== */
 // Обработчик события выбора статуса выполнения
 todosFilterEls.forEach((filter) => filter.addEventListener('change', renderTodos));
 
@@ -584,7 +597,7 @@ todosSearchEl.addEventListener('input', renderTodos);
 cleanInputBtnEls.forEach((button) =>
   button.addEventListener('click', (event) => {
     event.currentTarget.parentElement.querySelector('input').value = '';
-    renderTodos();
+    renderTodos(); // при очистке поля поиска todo рендеоим новый список todo
   })
 );
 
@@ -622,7 +635,6 @@ todoDialogActionBtnEl.addEventListener('click', (event) => {
   if (currentEditingId) {
     editTodo(currentEditingId, title, datetime);
     currentEditingId = null;
-    // todoDialogActionBtnEl.value = "Добавить"; // Протестировать!!!
   } else {
     addTodo(title, datetime);
   }
@@ -630,8 +642,9 @@ todoDialogActionBtnEl.addEventListener('click', (event) => {
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
 
-  countActualTodos(); // при добавлении/изменении todo пересчитываем активные
-  renderTodos();
+  countActualTodos(); // при добавлении/изменении todo пересчитываем актуальные
+  renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
+  schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
 });
 
 // Обработчик события нажатия кнопки действия с задачей (кнопка "Отменить")
@@ -640,8 +653,6 @@ cancelBtnEl.addEventListener('click', () => {
 
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
-
-  // todoDialogActionBtnEl.value = "Добавить"; // Протестировать!!!
 });
 
 // Обработка кликов по разным элементам в списке todo (один обработчик на весь список)
@@ -654,8 +665,9 @@ todosListEl.addEventListener('click', (event) => {
   // Клик по checkbox для переключения Active/Done
   if (event.target.closest('input[type="checkbox"]')) {
     toggleTodo(id);
-    countActualTodos(); // при смене состояния todo пересчитываем активные
-    renderTodos();
+    countActualTodos(); // при смене состояния todo пересчитываем актуальные
+    renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
+    schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
     return;
   }
 
@@ -688,17 +700,25 @@ todosListEl.addEventListener('click', (event) => {
   // Клик по кнопке удаления todo
   if (event.target.closest('.delete-btn')) {
     deleteTodo(id);
-    renderTodos();
+    renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
+    schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
   }
 
   // Клик по кнопке восстановления удаленного todo
   if (event.target.closest('.restore-btn')) {
     restoreTodo(id);
-    renderTodos();
+    renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
+    schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
   }
 });
+/* ======================================= */
+/* ===== События элементов задач END ===== */
+/* ======================================= */
 
-// Первоначальная инициализация (переделать на чистые функции???)
-countActualTodos();
-renderTodos();
-schedulePlannedUpdate();
+/* =================================================== */
+/* ===== Первоначальная инициализация приложения ===== */
+/* =================================================== */
+// Переделать все на чистые функции???
+countActualTodos(); // определяем актуальные (на сегодня) задачи
+renderTodos(); // рендерим список задач
+schedulePlannedUpdate(); // запускаем планировщик
