@@ -29,3 +29,6 @@ logs/
 # Python
 __pycache__/
 *.pyc
+
+# Other
+course-html-css-js/projects/app-todo/scripts/todo-v2.js
