@@ -13,10 +13,12 @@ const closeModalBtn = document.querySelector('#close-modal');
 
 const openModal = () => {
   modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
 };
 
 const closeModal = () => {
   modal.classList.add('hidden');
+  document.body.style.overflow = '';
 };
 
 openModalBtn.addEventListener('click', openModal);
