@@ -1,6 +1,6 @@
 /* course-html-css-js/homeworks/homework-24/styles/styles.css */
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
