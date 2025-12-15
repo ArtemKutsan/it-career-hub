@@ -1,8 +1,4 @@
 /* course-html-css-js/lessons/62-1-lesson-39-1/styles/styles.css */
-.h-full {
-  min-height: 100%;
-}
-
 .modal {
   position: absolute;
   top: 0;
@@ -10,9 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #25252535;
+  background: #252525a5;
   height: 100vh;
   width: 100vw;
+  z-index: 9999;
 }
 
 .modal-body {

@@ -7,9 +7,9 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 // 62.1 Lesson 39.1
 /*  */
 const openModalBtn = document.querySelector('#open-modal');
-const closeModalBtn = document.querySelector('#close-modal');
 const modal = document.querySelector('.modal');
 const modalBody = document.querySelector('.modal-body');
+const closeModalBtn = document.querySelector('#close-modal');
 
 const openModal = () => {
   modal.classList.remove('hidden');
