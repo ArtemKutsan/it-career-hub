@@ -1,0 +1,376 @@
+/* course-html-css-js/lessons/62-2-lesson-39-2/styles/styles.css */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: #252525a5; */
+  background: url('../../../../assets/images/bg-v3.jpg') no-repeat center/cover;
+  background-size: cover;
+  background-position: center top;
+  height: 100vh;
+  width: 100vw;
+  z-index: 9999;
+  padding: 2rem;
+}
+
+.modal-body {
+  position: relative;
+  background: var(--color-bg);
+  border-radius: 1rem;
+}
+
+.forms-container {
+  background-color: rgba(225, 225, 225, 0.15);
+  backdrop-filter: blur(25px);
+  border-radius: 2.25rem;
+
+  border: 1px solid rgba(205, 205, 205, 0.45);
+  position: relative;
+  overflow: hidden;
+  max-width: calc(768px - 4rem);
+  width: 100%;
+  min-height: 480px;
+  margin: 0 auto;
+  box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.35);
+}
+
+/* ===== Контейнер ФОРМ ===== */
+.form-container {
+  position: absolute;
+  padding: 2rem 4rem;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Sign In — слева, видимая */
+.sign-in {
+  left: 0;
+  opacity: 1;
+  z-index: 20;
+  transform: translateX(0);
+}
+
+/* Sign Up — справа, но спрятана “внутри” (слева) */
+.sign-up {
+  right: 0;
+  opacity: 0;
+  z-index: 10;
+  transform: translateX(-25%);
+}
+
+/* Когда переключаемся */
+.forms-container.switched .sign-in {
+  transform: translateX(25%);
+  opacity: 0;
+  z-index: 10;
+}
+
+.forms-container.switched .sign-up {
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 20;
+}
+
+/* ===== ФОРМЫ: СОДЕРЖИМОЕ ===== */
+.forms-container form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  /* gap: 1rem; */
+  width: 100%;
+  text-align: center;
+  color: var(--color-light);
+}
+
+.forms-container form :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-light);
+}
+
+.forms-container a {
+  color: var(--color-light);
+  text-decoration: none;
+}
+
+.forms-container .hint {
+  font-size: var(--font-sm);
+}
+
+.forms-container input[type='text'],
+.forms-container input[type='email'],
+.forms-container input[type='password'] {
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border: 0px solid transparent;
+  border-radius: 0.875rem;
+  outline: none;
+  width: 100%;
+  background-color: var(--color-bright);
+}
+
+.forms-container button,
+.forms-container input[type='submit'] {
+  background-color: var(--color-accent);
+  color: var(--color-light);
+  font-size: var(--font-sm);
+  padding: 0.5rem 1.5rem;
+  border: 2px solid var(--color-accent);
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+  min-height: 2.5rem;
+}
+
+.forms-container button#close-modal {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
+  z-index: 9999;
+  background-color: transparent;
+  border: 0px solid transparent;
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.forms-container.switched button#close-modal {
+  color: var(--color-light);
+}
+.forms-container button.outline {
+  background-color: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.forms-container button.outline:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-light);
+}
+
+/* ===== СОЦИАЛЬНЫЕ ИКОНКИ ===== */
+.forms-container .social-icons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.forms-container .social-icons a {
+  color: var(--color-light);
+  text-decoration: none;
+  border: 2px solid var(--color-light);
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.5rem;
+  transition: all 0.25s;
+  height: 2.5rem;
+}
+
+.forms-container .social-icons a:hover {
+  background-color: var(--color-accent);
+}
+
+/* ===== ПАНЕЛЬ ПЕРЕКЛЮЧЕНИЯ ===== */
+.forms-container .toggle-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  border-radius: 10rem 0 0 10rem;
+  z-index: 1000;
+}
+
+.forms-container.switched .toggle-container {
+  transform: translateX(-100%);
+  border-radius: 0 10rem 10rem 0;
+}
+
+.forms-container .toggle {
+  background-color: var(--color-light);
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: all 0.5s ease-in-out;
+}
+
+.forms-container.switched .toggle {
+  transform: translateX(50%);
+}
+
+.forms-container .toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem 4rem;
+  text-align: center;
+  top: 0;
+  transition: all 0.5s ease-in-out;
+}
+
+.forms-container .toggle-left {
+  transform: translateX(-200%);
+}
+
+.forms-container.switched .toggle-left {
+  transform: translateX(0);
+}
+
+.forms-container .toggle-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.forms-container.switched .toggle-right {
+  transform: translateX(200%);
+}
+
+/* ===== Адаптив формы ===== */
+@media (max-width: 767px) {
+  html {
+    font-size: 20px;
+  }
+
+  section {
+    padding: 1rem 0 1rem 0;
+  }
+
+  .modal {
+    padding: 1rem;
+  }
+
+  /* Контейнер формы */
+  .forms-container {
+    height: 100%;
+    min-height: calc(568px - 2rem);
+  }
+
+  /* Формы */
+  .form-container {
+    /* position: relative; */
+    width: 100%;
+    height: auto;
+    min-height: calc(100% - 4.5rem);
+    /* transform: translateX(0);
+    opacity: 1;
+    z-index: 2;
+    padding: 0; */
+  }
+
+  .forms-container form {
+    gap: 0.5rem;
+  }
+
+  .forms-container button#close-modal,
+  .forms-container.switched button#close-modal {
+    color: var(--color-light);
+  }
+
+  .forms-container .social-icons {
+    margin-bottom: 0.5rem;
+  }
+
+  .forms-container .sign-up {
+    /* display: none; */
+    transform: translateX(100%);
+    padding: 1rem;
+  }
+
+  .forms-container .sign-in {
+    /* display: none; */
+    transform: translateX(0%);
+    padding: 1rem;
+  }
+  .forms-container.switched .sign-up {
+    /* display: none; */
+    transform: translateX(0%);
+  }
+
+  .forms-container.switched .sign-in {
+    /* display: none; */
+    transform: translateX(-100%);
+  }
+
+  .forms-container .toggle-container {
+    top: auto;
+    bottom: 0;
+
+    width: 100%; /* если padding у родителя 2rem */
+    height: 4.5rem;
+    border-radius: 2.25rem !important;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    z-index: 1000;
+    /* padding: 0 2rem; */
+    margin-top: 1rem;
+
+    transform: translateX(-50%) !important;
+  }
+
+  .forms-container .toggle-panel {
+    padding: 1rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .forms-container .toggle-container p,
+  .forms-container .toggle-container h2 {
+    display: none;
+  }
+
+  /* Заголовки и текст */
+  .forms-container h2 {
+    font-size: var(--font-2xl);
+    margin-bottom: 0.5rem;
+  }
+
+  .forms-container button,
+  .forms-container input[type='submit'] {
+    width: 100%;
+  }
+
+  .forms-container button#close-modal {
+    width: 2.5rem;
+  }
+}
+
+@media (max-width: 415px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 374px) {
+  html {
+    font-size: 16px;
+  }
+}
