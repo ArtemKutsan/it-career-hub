@@ -5,7 +5,7 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 
 /* ===== START ===== */
 // 62.1 Lesson 39.1
-/*  */
+/* Создание модального окна */
 const openModalBtn = document.querySelector('#open-modal');
 const modal = document.querySelector('.modal');
 const modalBody = document.querySelector('.modal-body');
