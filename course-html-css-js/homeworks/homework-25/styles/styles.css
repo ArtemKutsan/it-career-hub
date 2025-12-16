@@ -1,0 +1,72 @@
+/* course-html-css-js/homeworks/homework-25/styles/styles.css */
+.frame {
+  /* border: 1px solid var(--color-text); */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.cards {
+  /* border: 1px solid var(--color-secondary); */
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  position: absolute;
+  left: 0;
+  transition: left 0.5s;
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  min-width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.triggers {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.triggers > button {
+  width: 2rem;
+  font-size: var(--font-2xl);
+  background-color: rgba(0, 0, 0, 0.25);
+  border: none;
+  color: var(--color-light);
+  opacity: 0;
+  transition: opacity 0.5s;
+  cursor: pointer;
+}
+.triggers > button:hover {
+  opacity: 1;
+}
+
+.rounds {
+  position: absolute;
+  z-index: 20;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1rem;
+}
+
+.rounds > button {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  cursor: pointer;
+  /* background-color: var(--color-bg); */
+}
+
+.active {
+  background-color: var(--color-secondary);
+}
