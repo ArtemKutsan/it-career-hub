@@ -163,7 +163,7 @@
 .forms-container button.outline:hover {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-light);
+  color: var(--color-elevated);
 }
 
 /* ===== СОЦИАЛЬНЫЕ ИКОНКИ ===== */
@@ -209,7 +209,7 @@
 }
 
 .forms-container .toggle {
-  background-color: var(--color-light);
+  background: var(--color-bg);
   position: relative;
   left: -100%;
   height: 100%;
@@ -234,6 +234,7 @@
   text-align: center;
   top: 0;
   transition: all 0.5s ease-in-out;
+  background: var(--color-bg);
 }
 
 .forms-container .toggle-left {
