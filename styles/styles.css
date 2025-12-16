@@ -98,7 +98,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  min-width: calc(320px - 4rem);
+  /* min-width: calc(320px - 4rem); */
 }
 form.hidden {
   display: none;
@@ -123,7 +123,7 @@ input[type='password'] {
   border-radius: 0.875rem;
   outline: none;
   color: var(--color-text);
-  background: var(--color-elevated);
+  background: var(--color-bright);
   margin-bottom: 0.5rem;
   width: 100%;
   font-size: var(--font-sm);

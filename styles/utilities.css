@@ -974,6 +974,10 @@
   cursor: auto !important;
 }
 
+.h-full {
+  height: 100%;
+}
+
 /* ===== Text colors ===== */
 .text-light {
   color: var(--color-light);
