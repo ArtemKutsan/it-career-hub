@@ -123,7 +123,7 @@ input[type='password'] {
   border-radius: 0.875rem;
   outline: none;
   color: var(--color-text);
-  background: var(--color-bright);
+  background: var(--color-elevated);
   margin-bottom: 0.5rem;
   width: 100%;
   font-size: var(--font-sm);
