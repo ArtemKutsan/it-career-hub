@@ -11,7 +11,7 @@ input[type='datetime-local'] {
   border-radius: 0.875rem;
   outline: none;
   color: var(--color-text);
-  background: var(--color-bright);
+  background: var(--color-elevated);
   width: 100%;
   margin-bottom: 0;
   font-size: var(--font-sm);
