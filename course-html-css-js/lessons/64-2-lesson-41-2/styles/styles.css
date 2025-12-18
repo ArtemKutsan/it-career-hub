@@ -1,0 +1,40 @@
+/* course-html-css-js/lessons/64-2-lesson-41-2/styles/styles.css */
+#order-form {
+  max-width: 256px;
+}
+
+#order-buttons {
+  display: none;
+}
+
+#notifications-sidebar {
+  position: fixed;
+
+  right: 0;
+  height: 100vh;
+  overflow: scroll;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1rem 1rem 2rem;
+  min-width: 16rem;
+  border-radius: 1.25rem;
+}
+.notification.paid {
+  background: #78a1cb;
+}
+.notification.sent {
+  background: #ab84c8;
+}
+.notification.received {
+  background: #7abea7;
+}
