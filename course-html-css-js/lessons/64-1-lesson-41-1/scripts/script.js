@@ -11,11 +11,13 @@ const sidebarOpenBtn = document.querySelector('#sidebar-open');
 const sidebarCloseBtn = sidebar.querySelector('#sidebar-close');
 
 sidebarOpenBtn.addEventListener('click', () => {
-  sidebar.classList.remove('hidden');
+  // sidebar.classList.remove('hidden');
+  sidebar.classList.add('show');
 });
 
 sidebarCloseBtn.addEventListener('click', () => {
-  sidebar.classList.add('hidden');
+  sidebar.classList.remove('show');
+  // sidebar.classList.add('hidden');
 });
 /* ===== END ===== */
 
