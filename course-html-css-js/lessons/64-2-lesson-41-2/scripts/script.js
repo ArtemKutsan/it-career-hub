@@ -6,21 +6,18 @@ import { highlightPreBlocks } from '../../../../scripts/shiki-pre.js';
 /* ===== START ===== */
 // 64.2 Lesson 41.2
 /*  */
-const main = document.querySelector('main');
-const form = document.querySelector('#order-form');
-// const address = document.querySelector('#address');
-// const price = document.querySelector('#price');
-// const receiver = document.querySelector('#receiver');
+const body = document.querySelector('body');
+const orderForm = document.querySelector('#order-form');
 const orderBtns = document.querySelector('#order-buttons');
 const btnPaid = document.querySelector('#order-paid');
 const btnSent = document.querySelector('#order-sent');
 const btnReceived = document.querySelector('#order-received');
-
 let notificationsSidebar = document.querySelector('#notifications-sidebar');
+
 if (!notificationsSidebar) {
   notificationsSidebar = document.createElement('div');
   notificationsSidebar.id = 'notifications-sidebar';
-  main.appendChild(notificationsSidebar);
+  body.appendChild(notificationsSidebar);
 }
 const notifications = [];
 
@@ -35,52 +32,66 @@ class Notification {
   }
 }
 
-const renderNotifications = () => {
-  if (!notificationsSidebar) return;
-  notificationsSidebar.innerHTML = '';
+const addNotification = (notification) => {
+  const notificationDiv = document.createElement('div');
+  notificationDiv.className = `notification ${notification.type} text-light shadow`;
+  notificationDiv.dataset.id = String(notification.id);
+  notificationDiv.textContent = notification.text;
 
-  notifications.forEach((notification) => {
-    const div = document.createElement('div');
-    div.className = `notification ${notification.type} shadow`;
-    div.dataset.id = String(notification.id);
-    div.textContent = notification.text;
+  const closeBtn = document.createElement('button');
+  closeBtn.className = `close-notification-btn btn btn-invisible ${notification.type}`;
+  closeBtn.innerHTML = `<span class="text-light text-sm material-symbols-outlined">close</span>`;
+  notificationDiv.appendChild(closeBtn);
 
-    // Кнопка закрытия (базовый обработчик)
-    const closeBtn = document.createElement('button');
-    closeBtn.type = 'button';
-    closeBtn.className = `btn btn-ghost ${notification.type}`;
-    closeBtn.textContent = 'x';
-    closeBtn.addEventListener('click', (event) => {
-      const id = Number(event.target.parentElement.dataset.id);
-      const index = notifications.findIndex((notification) => notification.id === id);
-      if (index !== -1) notifications.splice(index, 1);
-      renderNotifications();
-    });
+  notificationsSidebar.prepend(notificationDiv);
 
-    div.appendChild(closeBtn);
-    notificationsSidebar.appendChild(div);
-  });
+  // Принудительно вызываем reflow
+  notificationDiv.offsetHeight;
+
+  notificationDiv.classList.add('show');
+
+  setTimeout(() => {
+    notificationDiv.remove();
+    notifications.pop();
+  }, 5000);
 };
 
 /* ===== Обработчики событий ===== */
-form.addEventListener('submit', (event) => {
+orderForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  // setTimeout(() => (orderBtns.style.display = 'flex'), 2000);
   orderBtns.style.display = 'flex';
 });
 
 btnPaid.addEventListener('click', () => {
   const notification = new Notification('paid', 'Заказ оплачен');
-  renderNotifications();
+  addNotification(notification);
 });
 
 btnSent.addEventListener('click', () => {
   const notification = new Notification('sent', 'Заказ отправлен');
-  renderNotifications();
+  addNotification(notification);
 });
 
 btnReceived.addEventListener('click', () => {
   const notification = new Notification('received', 'Заказ получен');
-  renderNotifications();
+  addNotification(notification);
+});
+
+// Обработка кликов по элементам в списке уведомлений (один обработчик на весь контейнер)
+notificationsSidebar.addEventListener('click', (event) => {
+  const notificationEl = event.target.closest('.notification');
+  if (!notificationEl) return;
+  const id = Number(notificationEl.dataset.id);
+
+  if (event.target.closest('.close-notification-btn')) {
+    const index = notifications.findIndex((notification) => notification.id === id);
+    if (index !== -1) {
+      notifications.splice(index, 1);
+      notificationEl.remove();
+    }
+    return;
+  }
 });
 /* ===== END ===== */
 
