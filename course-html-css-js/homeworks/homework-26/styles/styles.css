@@ -1,0 +1,33 @@
+/* course-html-css-js/homeworks/homework-26/styles/styles.css */
+.sidebar {
+  width: 16rem;
+}
+
+.sidebar #main-menu ul li {
+  list-style: none;
+  font-size: var(--font-sm);
+}
+
+.menu-item {
+  /* width: fit-content; */
+  min-height: 1.5rem;
+  padding: 0 0 0 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text-lite);
+}
+.menu-item.active {
+  background: var(--color-bg-accent);
+  color: var(--color-accent);
+}
+.menu-item .material-symbols-outlined {
+  transition: transform 0.5s ease;
+}
+
+li.expanded > .menu-item .material-symbols-outlined {
+  transform: rotate(90deg);
+  color: var(--color-accent);
+}

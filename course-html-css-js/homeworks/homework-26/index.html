@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    const theme = document.querySelector("html").setAttribute("data-theme", localStorage.getItem("theme") || "light");
+  </script>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script> -->
+  <!-- <script src="../../../scripts/smooth-scroll.js" defer></script> -->
+
+  <script type="module" src="../../../scripts/theme-toggle.js" defer></script>
+  <script type="module" src="../../../scripts/log-to-page.js" defer></script>
+  <script type="module" src="../../../scripts/shiki-loader.js" defer></script>
+
+  <script src="../../../scripts/nav.js" defer></script>
+  <script src="../../../scripts/timer.js" defer></script>
+
+  <script type="module" src="./scripts/script.js" defer></script>
+
+  <title>ICH WD</title>
+  <link rel="icon" href="../../../favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link href="../../../styles/styles.css" rel="stylesheet">
+  <link href="./styles/styles.css" rel="stylesheet">
+</head>
+
+<body class="text-base">
+  <div class="base-layout">
+
+    <div class="sidebar bg-theme">
+      <button type="button" class="btn btn-ghost ml-auto mb-4">
+        <span id="sidebar-close" class="material-symbols-outlined">
+          close
+        </span>
+      </button>
+
+      <div id="main-menu" class="flex flex-col gap-4">
+        <!-- <button class="btn px-6">Menu item 1</button>
+        <button class="btn px-6">Menu item 2</button>
+        <button class="btn px-6">Menu item 3</button>
+        <button class="btn px-6">Menu item 4</button> -->
+      </div>
+    </div>
+
+    <header>
+      <div class="container flex items-center justify-between px-8">
+        <div class="flex items-center gap-2">
+          <button id="sidebar-open" class="btn btn-ghost">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+
+          <h4 class="uppercase">
+            <a class="flex" href="/index.html">
+              <span class="text-secondary font-black">ICH</span>
+              <span class="font-black text-muted">.</span>
+              <span class="text-accent">WD</span>
+            </a>
+          </h4>
+        </div>
+        <div class="flex items-center justify-end gap-1">
+          <nav class="flex items-center gap-1">
+            <!-- В этом ul рендерится навигация сайта через nav.js-->
+            <ul></ul>
+          </nav>
+          <button id="theme-toggle" class="btn btn-ghost"></button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="h-full">
+        <div class="container flex flex-col h-full px-8">
+
+          <!-- ===== Lesson ===== -->
+          <div class="content flex flex-col flex-1 m-auto">
+            <h2 class="title">Homework 26</h2>
+            <div id="" class="flex-1">
+
+            </div>
+          </div>
+          <!-- ===== Lesson END ===== -->
+        </div>
+      </section>
+
+      <!-- В этом div выводятся блоки кода из любых файлов загруженных через fetch-as-text.js -->
+      <div class="container px-8">
+        <div id="code-block" class="content flex flex-col gap-4 text-sm mb-8 m-auto"></div>
+      </div>
+    </main>
+  </div>
+
+
+
+  <footer class="text-sm">
+    <div id="footer-content" class="container px-8">
+      <div class="flex flex-col justify-between text-left gap-1">
+        <span class="font-semibold text-accent">It Career Hub Web Developer</span>
+        <span>Designed & built by&nbsp;<a class="link nowrap" href="https://artemkutsan.pp.ua">Artem Kutsan</a></span>
+        <span>&copy; Copyright 2025</span>
+      </div>
+      <div class="flex flex-col justify-between text-right">
+        <span id="current-time" class="text-5xl font-bold text-accent"></span>
+        <span id="current-zone"></span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
