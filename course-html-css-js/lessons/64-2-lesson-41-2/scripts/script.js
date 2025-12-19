@@ -45,8 +45,13 @@ const addNotification = (notification) => {
 
   notificationsSidebar.prepend(notificationDiv);
 
-  // Принудительно вызываем reflow
+  // Принудительно вызываем reflow для Firefox
   notificationDiv.offsetHeight;
+
+  // Не работает как ожидается в Firifox
+  // requestAnimationFrame(() => {
+  //   notificationDiv.classList.add('show');
+  // });
 
   notificationDiv.classList.add('show');
 
