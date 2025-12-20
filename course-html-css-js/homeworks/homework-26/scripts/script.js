@@ -101,7 +101,7 @@ const renderSidebarMenuItems = (items, level = 0) => {
 
     if (item.items?.length) {
       const arrowSpan = document.createElement('span');
-      arrowSpan.className = 'material-symbols-outlined text-muted';
+      arrowSpan.className = 'material-symbols-outlined text-lite';
       arrowSpan.textContent = 'arrow_right';
       itemDiv.appendChild(arrowSpan);
       liEl.appendChild(renderSidebarMenuItems(item.items, level + 1));

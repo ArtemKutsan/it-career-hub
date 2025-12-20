@@ -19,6 +19,9 @@
   justify-content: space-between;
   color: var(--color-text-lite);
 }
+.menu-item:hover {
+  color: var(--color-accent);
+}
 .menu-item.active {
   background: var(--color-bg-accent);
   color: var(--color-accent);
