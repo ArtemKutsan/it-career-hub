@@ -132,12 +132,12 @@ body {
   flex-direction: column;
   padding: 1rem;
   border-right: 1px solid var(--color-bg-accent);
-  transition: all 0.5s ease;
-  z-index: 9999;
   transition: transform 0.5s ease;
+  z-index: 9999;
   transform: translateX(-100%);
 }
 .sidebar.show {
+  position: relative;
   transform: translateX(0);
 }
 
@@ -147,6 +147,9 @@ body {
   max-width: 768px;
   min-width: 320px;
   margin: 0 auto;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  transition: all 0.5s ease;
 }
 
 /* ===== Шапка ===== */
@@ -377,7 +380,14 @@ code {
   background-color: var(--color-bg);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1144px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 800px) {
   .base-layout {
     grid-template-columns: 1fr;
     /* grid-template-rows: auto 1fr auto; */
@@ -385,5 +395,9 @@ code {
       'header'
       'main'
       'footer';
+  }
+  .sidebar.show {
+    position: fixed;
+    transform: translateX(0);
   }
 }
