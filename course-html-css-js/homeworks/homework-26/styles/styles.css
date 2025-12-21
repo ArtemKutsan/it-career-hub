@@ -1,6 +1,7 @@
 /* course-html-css-js/homeworks/homework-26/styles/styles.css */
 .sidebar {
-  width: 16rem;
+  min-width: 320px;
+  overflow-y: scroll;
 }
 
 .sidebar #main-menu ul li {
@@ -10,9 +11,9 @@
 
 .menu-item {
   /* width: fit-content; */
-  min-height: 1.5rem;
-  padding: 0 0 0 0.5rem;
-  border-radius: 0.5rem;
+  min-height: 2rem;
+  padding: 0 0.5rem 0 0.75rem;
+  border-radius: 0.625rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -33,4 +34,10 @@
 li.expanded > .menu-item .material-symbols-outlined {
   transform: rotate(90deg);
   color: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    min-width: 100dvw;
+  }
 }

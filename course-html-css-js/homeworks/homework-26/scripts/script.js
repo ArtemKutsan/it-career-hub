@@ -136,13 +136,11 @@ sidebarMainMenu.addEventListener('click', (event) => {
 });
 
 sidebarOpenBtn.addEventListener('click', () => {
-  // sidebar.classList.remove('hidden');
   sidebar.classList.add('show');
 });
 
 sidebarCloseBtn.addEventListener('click', () => {
   sidebar.classList.remove('show');
-  // sidebar.classList.add('hidden');
 });
 /* ===== END ===== */
 
