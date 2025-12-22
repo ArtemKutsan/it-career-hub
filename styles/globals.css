@@ -331,55 +331,6 @@ code {
   height: 1.25em;
 }
 
-/* ===== Text colors ===== */
-.text-light {
-  color: var(--color-light);
-}
-.text-lite {
-  color: var(--color-text-lite);
-}
-.text-highlight {
-  color: var(--color-highlight);
-}
-.text-dark {
-  color: var(--color-dark);
-}
-.text-primary {
-  color: var(--color-primary);
-}
-.text-secondary {
-  color: var(--color-secondary);
-}
-.text-accent {
-  color: var(--color-accent);
-}
-.text-muted {
-  color: var(--color-text-muted);
-}
-.text-inverse {
-  color: var(--color-text-inverse);
-}
-.text-elevated {
-  color: var(--color-elevated);
-}
-
-/* ===== Background colors ===== */
-.bg-light {
-  background-color: var(--color-light);
-}
-.bg-lite {
-  background-color: var(--color-bg-accent);
-}
-.bg-dark {
-  background-color: var(--color-dark);
-}
-.bg-inverse {
-  background-color: var(--color-bg-inverse);
-}
-.bg-theme {
-  background-color: var(--color-bg);
-}
-
 @media (max-width: 1144px) {
   .container {
     padding-left: 2rem;

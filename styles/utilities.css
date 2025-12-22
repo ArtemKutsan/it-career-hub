@@ -1000,13 +1000,28 @@
 .text-inverse {
   color: var(--color-primary);
 }
+.text-lite {
+  color: var(--color-text-lite);
+}
+.text-highlight {
+  color: var(--color-highlight);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+.text-elevated {
+  color: var(--color-elevated);
+}
 
 /* ===== Background colors ===== */
 .bg-light {
   background-color: var(--color-light);
 }
 .bg-lite {
-  background-color: var(--color-lite);
+  background-color: var(--color-bg-accent);
 }
 .bg-bright {
   background-color: var(--color-bright);
@@ -1019,6 +1034,9 @@
 }
 .bg-highlight {
   background-color: var(--color-highlight);
+}
+.bg-theme {
+  background-color: var(--color-bg);
 }
 
 .z-9999 {
