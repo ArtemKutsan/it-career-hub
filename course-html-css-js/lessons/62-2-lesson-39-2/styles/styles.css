@@ -3,17 +3,19 @@
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   /* background: #252525a5; */
   background: url('../../../../assets/images/bg-v3.jpg') no-repeat center/cover;
   background-size: cover;
   background-position: center top;
-  height: 100vh;
+  min-height: 100dvh;
+  height: 100%;
   width: 100vw;
   z-index: 9999;
   padding: 2rem;
+  overflow-y: scroll;
 }
 
 .modal-body {
@@ -32,7 +34,7 @@
   overflow: hidden;
   max-width: calc(768px - 4rem);
   width: 100%;
-  min-height: 480px;
+  min-height: 478px;
   margin: 0 auto;
   box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.35);
 }
