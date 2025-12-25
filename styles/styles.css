@@ -6,58 +6,16 @@
 @import url('buttons.css');
 @import url('prose.css');
 
-.container {
+/* .container {
   width: 100%;
   max-width: none;
   min-width: 320px;
   margin: 0 auto;
-}
+} */
 
 .content {
   width: 100%;
   max-width: 768px;
-}
-
-header {
-  /* position: absolute; */
-  top: 0;
-  left: 0;
-  padding: 1rem 0;
-  z-index: 9990;
-}
-
-header .container {
-  max-width: none;
-}
-
-header nav > ul {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  list-style: none;
-}
-
-header a {
-  color: var(--color-text);
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-}
-header a:hover,
-header a:hover > span {
-  color: var(--color-secondary);
-  /* text-decoration: underline; */
-}
-
-a,
-span {
-  line-height: inherit;
-  display: inline-block;
-}
-
-#header {
-  padding: 1rem 0;
-  z-index: 9999;
 }
 
 /* ===== START ===== */
@@ -109,7 +67,7 @@ label {
 }
 label > .required-star {
   position: absolute;
-  right: 0.875rem;
+  right: 0.75rem;
   top: 0.5rem;
 }
 
@@ -146,57 +104,6 @@ input[type='password']::placeholder {
   text-decoration: underline;
 }
 
-footer {
-  background-color: var(--color-highlight);
-}
-
-#footer-content {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  /* font-size: var(--font-sm); */
-}
 /* ===== END ===== */
 
 /* ===== Адаптив ===== */
-@media (max-width: 767px) {
-  html {
-    font-size: 20px;
-  }
-
-  .flex-adaptive {
-    flex-direction: column !important;
-  }
-
-  header nav > ul {
-    display: none;
-  }
-
-  form {
-    width: 100%;
-  }
-
-  #footer-content {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 389px) {
-  html {
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 374px) {
-  .container {
-    padding: 0 1rem;
-  }
-
-  section {
-    padding: 1rem 0;
-  }
-
-  footer {
-    padding: 1rem 0;
-  }
-}
