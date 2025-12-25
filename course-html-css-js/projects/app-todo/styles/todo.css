@@ -239,9 +239,9 @@ input[type='time'] {
 
 .planned .badge {
   border-radius: 9999px;
-  font-size: var(--font-sm);
+  font-size: var(--font-xs);
   width: fit-content;
-  padding: 0.2325em 0.75em;
+  padding: 0.2085em 0.75em;
   background: var(--color-text);
   color: var(--color-text-inverse);
 }
