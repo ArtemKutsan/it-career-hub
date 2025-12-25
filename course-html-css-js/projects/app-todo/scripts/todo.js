@@ -209,72 +209,100 @@ const editTodo = (id, title, date) => {
   setData(todosKey, todos); // вынести из функции???
 };
 
-// Удаление задачи
+// Удаление задачи (упрощенная)
 const deleteTodo = (id) => {
-  // todos = todos.filter((todo) => todo.id !== id);
-  const { remaining, removed } = todos.reduce(
-    (acc, todo) =>
-      todo.id === id
-        ? { remaining: acc.remaining, removed: todo }
-        : (acc.remaining.push(todo), acc),
-    { remaining: [], removed: null }
-  );
+  const index = todos.findIndex((todo) => todo.id === id);
 
-  todos = remaining; // персохраняем массив todos (без удаленного)
-  setData(todosKey, todos); // вынести из функции???
-
-  removed.deleted = true; // ставим у удаленного элемента deleted = true
-  trash.unshift(removed); // вставляем в начало массива trash удаленную todo
-  setData(trashKey, trash); // вынести из функции???
+  if (index !== -1) {
+    const [removed] = todos.splice(index, 1);
+    removed.deleted = true;
+    trash.unshift(removed); // вставляем в начало массива trash удаленную todo
+    setData(todosKey, todos); // вынести из функции???
+    setData(trashKey, trash); // вынести из функции???
+  }
 };
 
-// Восстановление удаленной задачи из корзины
+// // Удаление задачи
+// const deleteTodo = (id) => {
+//   // todos = todos.filter((todo) => todo.id !== id);
+//   const { remaining, removed } = todos.reduce(
+//     (acc, todo) =>
+//       todo.id === id
+//         ? { remaining: acc.remaining, removed: todo }
+//         : (acc.remaining.push(todo), acc),
+//     { remaining: [], removed: null }
+//   );
+
+//   todos = remaining; // персохраняем массив todos (без удаленного)
+//   setData(todosKey, todos); // вынести из функции???
+
+//   removed.deleted = true; // ставим у удаленного элемента deleted = true
+//   trash.unshift(removed); // вставляем в начало массива trash удаленную todo
+//   setData(trashKey, trash); // вынести из функции???
+// };
+
+// Восстановление удаленной задачи из корзины (упрощенная)
 const restoreTodo = (id) => {
-  const { remaining, restored } = trash.reduce(
-    (acc, todo) =>
-      todo.id === id
-        ? { remaining: acc.remaining, restored: todo }
-        : (acc.remaining.push(todo), acc),
-    { remaining: [], restored: null }
-  );
+  const index = trash.findIndex((todo) => todo.id === id);
 
-  trash = remaining; // персохраняем массив trash (без восстановленного)
-  setData(trashKey, trash); // вынести из функции???
-
-  // Формируем объект todo из данных восстановленной из корзины задачи
-  const resoredTodo = {
-    id: restored.id,
-    title: restored.title,
-    completed: restored.completed,
-    date: restored.date,
-    createdAt: restored.createdAt,
-  };
-
-  todos.push(resoredTodo); // вставляем в массив todos восстановленную задачу
-  setData(todosKey, todos); // вынести из функции???
+  if (index !== -1) {
+    const [restored] = trash.splice(index, 1);
+    delete restored.deleted;
+    todos.push(restored);
+    setData(todosKey, todos);
+    setData(trashKey, trash);
+  }
 };
 
-// Подсчет кол-ва актуальных (сегодняшник) todo вместе с просроченными
-const countActualTodos = () => {
+// // Восстановление удаленной задачи из корзины
+// const restoreTodo = (id) => {
+//   const { remaining, restored } = trash.reduce(
+//     (acc, todo) =>
+//       todo.id === id
+//         ? { remaining: acc.remaining, restored: todo }
+//         : (acc.remaining.push(todo), acc),
+//     { remaining: [], restored: null }
+//   );
+
+//   trash = remaining; // персохраняем массив trash (без восстановленного)
+//   setData(trashKey, trash); // вынести из функции???
+
+//   // Формируем объект todo из данных восстановленной из корзины задачи
+//   const resoredTodo = {
+//     id: restored.id,
+//     title: restored.title,
+//     completed: restored.completed,
+//     date: restored.date,
+//     createdAt: restored.createdAt,
+//   };
+
+//   todos.push(resoredTodo); // вставляем в массив todos восстановленную задачу
+//   setData(todosKey, todos); // вынести из функции???
+// };
+
+// Подсчет кол-ва активных и актуальных (сегодняшник) и просроченнымх задач
+const countTodos = () => {
   const today = new Date();
   today.setHours(23, 59, 59, 999); // обнуляем время, чтобы сравнивать только дату
 
-  const { actualQty, expiredQty } = todos.reduce(
+  const { actualQty, expiredQty, activeQty } = todos.reduce(
     (acc, curr) => {
       const todoDate = new Date(curr.date);
 
       return !curr.completed
-        ? todoDate < Date.now()
-          ? (acc.expiredQty++, acc.actualQty++, acc)
-          : todoDate <= today
-          ? (acc.actualQty++, acc)
-          : acc
+        ? (acc.activeQty++,
+          todoDate < Date.now()
+            ? (acc.expiredQty++, acc.actualQty++, acc)
+            : todoDate <= today
+            ? (acc.actualQty++, acc)
+            : acc)
         : acc;
     },
-    { actualQty: 0, expiredQty: 0 }
+    { actualQty: 0, expiredQty: 0, activeQty: 0 }
   );
 
   // Сделать возврат значений и Вынести этот рендер из функции???
+  document.querySelectorAll('.active').forEach((el) => (el.textContent = activeQty));
   document.querySelectorAll('.actual').forEach((el) => (el.textContent = actualQty));
   document.querySelectorAll('.expired').forEach((el) => (el.textContent = expiredQty));
 };
@@ -642,7 +670,7 @@ todoDialogActionBtnEl.addEventListener('click', (event) => {
   document.body.classList.toggle('no-scroll');
   todoDialogEl.classList.toggle('invisible');
 
-  countActualTodos(); // при добавлении/изменении todo пересчитываем актуальные
+  countTodos(); // при добавлении/изменении todo пересчитываем активные, актуальные и просроченные задачи
   renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
   schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
 });
@@ -665,7 +693,7 @@ todosListEl.addEventListener('click', (event) => {
   // Клик по checkbox для переключения Active/Done
   if (event.target.closest('input[type="checkbox"]')) {
     toggleTodo(id);
-    countActualTodos(); // при смене состояния todo пересчитываем актуальные
+    countTodos(); // при смене состояния todo пересчитываем активные, актуальные и просроченные задачи
     renderTodos(); // при добавлении/изменении todo рендеоим новый список todo
     schedulePlannedUpdate(); // при добавлении/изменении todo корректируем планировщик
     return;
@@ -719,6 +747,6 @@ todosListEl.addEventListener('click', (event) => {
 /* ===== Первоначальная инициализация приложения ===== */
 /* =================================================== */
 // Переделать все на чистые функции???
-countActualTodos(); // определяем актуальные (на сегодня) задачи
+countTodos(); // считаем активные, актуальные и просроченные задачи
 renderTodos(); // рендерим список задач
 schedulePlannedUpdate(); // запускаем планировщик
