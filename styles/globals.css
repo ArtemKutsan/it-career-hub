@@ -409,12 +409,12 @@ code {
   }
 }
 
-@media (max-width: 800px) {
-  .container,
+@media (max-width: 1023px) {
+  /* .container,
   header .container,
   footer .container {
     max-width: 768px;
-  }
+  } */
 
   .base-layout {
     grid-template-columns: 1fr;
