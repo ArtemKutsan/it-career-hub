@@ -391,23 +391,23 @@ code {
   height: 1.25em;
 }
 
-@media (max-width: 1144px) {
-  .container,
-  header .container,
-  footer .container {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-}
-
-@media (max-width: 1024px) {
+/* @media (max-width: 1144px) {
   .container,
   header .container,
   footer .container {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-}
+} */
+
+/* @media (max-width: 1024px) {
+  .container,
+  header .container,
+  footer .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+} */
 
 @media (max-width: 1023px) {
   /* .container,
@@ -427,6 +427,14 @@ code {
   .sidebar.show {
     position: fixed;
     transform: translateX(0);
+  }
+}
+
+@media (max-width: 800px) {
+  .container,
+  header .container,
+  footer .container {
+    max-width: 768px;
   }
 }
 
